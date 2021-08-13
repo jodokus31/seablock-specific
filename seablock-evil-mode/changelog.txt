@@ -1,0 +1,26 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.0.1
+Date: 2021.08.13
+  Changes:
+    - Initial Release.
+    - Disables most water void recipes. Exceptions: (Regular Water, Purified, Saline, Heavy Mud, Concentrated Mud, Light Mud, Thin Mud)
+    - Disables most chemical void recipes. Exceptions: (Hydrogen, Oxygen, Nitrogen, Chlorine, Compressed Air)
+    - Spill items on the floor, when containers are getting destroyed
+    - Increase mining time of storage tanks and fluid wagons
+    - Flarestack consumes 5 times more power
+    - Chemical plant mk1 is available from start.
+    - Add 2 recipes to get a bit of steam from hydrogen/oxygen (activated from start)
+    - 1 consumes exactly ratio of dirty electrolysis
+    - 1 consumes less oxygen, to be able to balance oxygen consumption.
+    - Fuel value for all solids are doubled to explain boiler effectivity better
+    - Boiler effectivity is tiered (percentages relative to current seablock values)
+    - boiler1: 45% (actually 90%)
+    - boiler2: 50% (actually 100%)
+    - boiler3: 55% (actually 110%)
+    - boiler4: 62.5% (actually 125%)
+    - boiler5: 70% (actually 140%)
+    - fluid boiler1: 60%
+    - fluid boiler2: 70%
+    - fluid boiler3: 80%
+    - fluid boiler4: 95%
+    - Nuclear effectivities are unchanged
