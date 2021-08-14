@@ -3,7 +3,7 @@
 ## seablock-evil-mode
 
 Flaring gases and clarify fluids is heavily restricted and consumes more power. H2/O2 still can be voided, but also could be tranformed into steam.\
-Lower tier boiler are less efficient, but higher tiers get better.\
+Lower tier boilers are less efficient, but higher tiers get better.\
 \
 CAUTION: Voiding solid item by destroying containers won't work, because the items get spilled on the ground.\
 
@@ -40,17 +40,18 @@ Fuel values of chemical fuels (like coal or solid fuel) are doubled (except nucl
 
 ### Details:
  - Fuel value for most chemical solids are doubled
- - Don't adjust nuclear fuel, rocket fuel, etc.
+    - Don't adjust nuclear fuel, rocket fuel, etc.
  - Boiler efficiency is tiered (percentages relative to current values)
  - All tiers and fuel factors are customizable
  - Fuel value for most chemical solids are doubled
- - Boiler mk1: default 50.0% (actually 100% because of doubled fuel values)
- - Boiler mk2: default 55.0% (actually 110%)
- - Boiler mk3: default 62.5% (actually 125%)
- - Boiler mk4: default 72.5% (actually 145%)
- - Boiler mk5: default 85.0% (actually 170%)
- - Fluid boiler mk1: default 100%
- - Fluid boiler mk2: default 110%
- - Fluid boiler mk3: default 125%
- - Fluid boiler mk4: default 145%
- - Nuclear efficiencies are unchanged
+ - Default values
+    - Boiler mk1: default 50.0% (actually 100% because of doubled fuel values)
+    - Boiler mk2: default 55.0% (actually 110%)
+    - Boiler mk3: default 62.5% (actually 125%)
+    - Boiler mk4: default 72.5% (actually 145%)
+    - Boiler mk5: default 85.0% (actually 170%)
+    - Fluid boiler mk1: default 100%
+    - Fluid boiler mk2: default 110%
+    - Fluid boiler mk3: default 125%
+    - Fluid boiler mk4: default 145%
+    - Nuclear efficiencies are unchanged

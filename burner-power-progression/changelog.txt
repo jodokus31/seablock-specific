@@ -1,9 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.2
+Date: 2021.08.14
+  Changes:
+    - Fix changelog
+    - Fix typos in docu
+---------------------------------------------------------------------------------------------------
 Version: 0.0.1
 Date: 2021.08.14
   Changes:
     - Initial Release.
-    - Fuel value for most chemical solids are doubled
+    - Fuel values for most chemical solids are doubled
     - Don't adjust nuclear fuel, rocket fuel, etc.
     - Boiler efficiency is tiered (percentages relative to current values)
     - All tiers and fuel factors are customizable
@@ -17,4 +23,3 @@ Date: 2021.08.14
     - Fluid boiler mk3: default 125%
     - Fluid boiler mk4: default 145%
     - Nuclear efficiencies are unchanged
-    
