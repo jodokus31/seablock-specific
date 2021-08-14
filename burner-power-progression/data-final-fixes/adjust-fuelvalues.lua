@@ -17,6 +17,8 @@ local fluids_exceptions =
 {
 }
 
+-- Muliply fuel values at last step
+
 for item_name, item in pairs(data.raw.item) do
   if not items_exceptions[item_name] then 
     -- don't increase not chemical fuel like fuel cells, as nuclear reactors remain unchanged

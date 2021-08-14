@@ -8,12 +8,20 @@ Date: 2021.08.14
     - Spill items on the floor, when containers are getting destroyed
     - Increase mining time of storage tanks and fluid wagons
     - Flarestack consumes 5 times more power
-    - Chemical plant mk1 is available from start.
     - Add 2 recipes to get a bit of steam from hydrogen/oxygen (activated from start)
-    - 1 consumes exactly ratio of dirty electrolysis
-    - 1 consumes less oxygen, to be able to balance oxygen consumption.
+    - One to consume exactly the ratio of dirty electrolysis
+    - One to consume more hydron, to be able to balance oxygen consumption.
+    - Chemical plant mk1 is available from start.
     - Use "Burner power progression" (seperate mod) to adjust efficiencies of boiler tiers 
-    - solid factor is fixed to 2, 
-    - solid tiers are fixed to "0.425, 0.50, 0.575, 0.65,  0.75"
-    - fluid factor is fixed to 1
-    - fluid tiers are fixed to "-.-,   0.60, 0.70,  0.825, 0.95"
+    - Fuel value for most chemical solids are doubled
+    - Nerfed boiler efficiencies compared to default settings
+    - Boiler mk1: 42.5% (actually 85% because of doubled fuel values)
+    - Boiler mk2: 50.0% (actually 100%)
+    - Boiler mk3: 57.5% (actually 115%)
+    - Boiler mk4: 65.0% (actually 130%)
+    - Boiler mk5: 75.0% (actually 150%)
+    - Fluid boiler mk1: 60.0%
+    - Fluid boiler mk2: 70.0%
+    - Fluid boiler mk3: 82.5%
+    - Fluid boiler mk4: 95.0%
+    - Nuclear efficiencies are unchanged
