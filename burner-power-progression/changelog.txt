@@ -1,0 +1,20 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.0.1
+Date: 2021.08.14
+  Changes:
+    - Initial Release.
+    - Fuel value for most chemical solids are doubled to explain boiler effectivity better
+    - Don't adjust nuclear fuel, rocket fuel, etc.
+    - Boiler efficiency is tiered (percentages relative to current values)
+    - all tiers and fuel factors are customizable
+    - boiler1: default 50% (actually 100% with doubled fuel value)
+    - boiler2: default 55% (actually 110%)
+    - boiler3: default 62.5% (actually 125%)
+    - boiler4: default 72.5% (actually 145%)
+    - boiler5: default 85% (actually 170%)
+    - fluid boiler1: default 100%
+    - fluid boiler2: default 110%
+    - fluid boiler3: default 125%
+    - fluid boiler4: default 145%
+    - Nuclear efficiencies are unchanged
+    
