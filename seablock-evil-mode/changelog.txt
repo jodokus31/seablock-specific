@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.1
-Date: 2021.08.13
+Date: 2021.08.14
   Changes:
     - Initial Release.
     - Disables most water void recipes. Exceptions: (Regular Water, Purified, Saline, Heavy Mud, Concentrated Mud, Light Mud, Thin Mud)
@@ -12,15 +12,8 @@ Date: 2021.08.13
     - Add 2 recipes to get a bit of steam from hydrogen/oxygen (activated from start)
     - 1 consumes exactly ratio of dirty electrolysis
     - 1 consumes less oxygen, to be able to balance oxygen consumption.
-    - Fuel value for all solids are doubled to explain boiler effectivity better
-    - Boiler effectivity is tiered (percentages relative to current seablock values)
-    - boiler1: 45% (actually 90%)
-    - boiler2: 50% (actually 100%)
-    - boiler3: 55% (actually 110%)
-    - boiler4: 62.5% (actually 125%)
-    - boiler5: 70% (actually 140%)
-    - fluid boiler1: 60%
-    - fluid boiler2: 70%
-    - fluid boiler3: 80%
-    - fluid boiler4: 95%
-    - Nuclear effectivities are unchanged
+    - Use "Burner power progression" (seperate mod) to adjust efficiencies of boiler tiers 
+    - solid factor is fixed to 2, 
+    - solid tiers are fixed to "0.425, 0.50, 0.575, 0.65,  0.75"
+    - fluid factor is fixed to 1
+    - fluid tiers are fixed to "-.-,   0.60, 0.70,  0.825, 0.95"
