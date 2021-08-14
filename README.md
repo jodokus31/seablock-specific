@@ -1,6 +1,6 @@
 # seablock-specific
 
-## seablock-evil-mode
+## SeaBlock Evil mode
 
 Flaring gases and clarify fluids is heavily restricted and consumes more power. H2/O2 still can be voided, but also could be tranformed into steam.\
 Lower tier boilers are less efficient, but higher tiers get better.\
@@ -33,7 +33,7 @@ CAUTION: Voiding solid item by destroying containers won't work, because the ite
     - Fluid boiler mk4: 95.0%
     - Nuclear efficiencies are unchanged
 
-## burner-power-progression
+## Burner Power Progression
 Higher tier boilers for power generation are more efficient (supports Bob's Power and KS Power).\
 \
 Fuel values of chemical fuels (like coal or solid fuel) are doubled (except nuclear and rocket fuel).
@@ -41,10 +41,10 @@ Fuel values of chemical fuels (like coal or solid fuel) are doubled (except nucl
 ### Details:
  - Fuel value for most chemical solids are doubled
     - Don't adjust nuclear fuel, rocket fuel, etc.
- - Boiler efficiency is tiered (percentages relative to current values)
+ - Boiler efficiency is tiered (percentages relative to unchanged values)
  - All tiers and fuel factors are customizable
- - Fuel value for most chemical solids are doubled
- - Default values
+ - Fuel values for most chemical solids are doubled
+ - Default values:
     - Boiler mk1: default 50.0% (actually 100% because of doubled fuel values)
     - Boiler mk2: default 55.0% (actually 110%)
     - Boiler mk3: default 62.5% (actually 125%)
