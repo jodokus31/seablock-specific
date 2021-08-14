@@ -1,0 +1,11 @@
+{
+  "name": "seablock-landfill-replacer",
+  "version": "0.0.1",
+  "title": "Seablock - Landfill Replacer",
+  "author": "jodokus31",
+  "contact": "",
+  "homepage": "",
+  "description": "You can exchange landfill types in blueprints",
+  "factorio_version":"1.1",
+  "dependencies": ["base >= 1.1.0", "LandfillPainting"]
+}
