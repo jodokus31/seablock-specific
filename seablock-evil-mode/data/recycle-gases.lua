@@ -8,15 +8,14 @@ data:extend({
     name = "sbem-steam-from-h2-o2-1",
     category = "chemistry",
     subgroup = "petrochem-basics",
-    energy_required = 1.4, --21 for 100
+    energy_required = 1.75, -- 1 sec. for 8 elecs on plant mk1
     enabled = true,
     ingredients = {
-      {type = "fluid", name = "gas-oxygen", amount = 75},
-      {type = "fluid", name = "gas-hydrogen", amount = 100}
+      {type = "fluid", name = "gas-oxygen", amount = 60},
+      {type = "fluid", name = "gas-hydrogen", amount = 80}
     },
     results = {
-      {type = "fluid", name = "steam", amount = 24},
-      -- {type = "fluid", name = "water-purified", amount = 76},
+      {type = "fluid", name = "steam", amount = 49}, -- plant consumes for ~19 steam in 1 sec.
     },
     always_show_products = true,
     icons = angelsmods.functions.create_liquid_recipe_icon(
@@ -38,15 +37,14 @@ data:extend({
     name = "sbem-steam-from-h2-o2-2",
     category = "chemistry",
     subgroup = "petrochem-basics",
-    energy_required = 2.1, --21 for 100
+    energy_required = 1.75, -- 1 sec. for 8 elecs on plant mk1
     enabled = true,
     ingredients = {
-      {type = "fluid", name = "gas-oxygen", amount = 75},
-      {type = "fluid", name = "gas-hydrogen", amount = 150}
+      {type = "fluid", name = "gas-oxygen", amount = 40},
+      {type = "fluid", name = "gas-hydrogen", amount = 80}
     },
     results = {
-      {type = "fluid", name = "steam", amount = 36},
-      -- {type = "fluid", name = "water-purified", amount = 114},
+      {type = "fluid", name = "steam", amount = 42}, -- plant consumes for ~19 steam in 1 sec.
     },
     always_show_products = true,
     icons = angelsmods.functions.create_liquid_recipe_icon(

@@ -17,7 +17,7 @@ CAUTION: Voiding solid item by destroying containers won't work, because the ite
  - Flarestack consumes 5 times more power
  - Add 2 recipes to get a bit of steam from hydrogen/oxygen (activated from start)
     - One to consume exactly the ratio of dirty electrolysis
-    - One to consume more hydron, to be able to balance oxygen consumption.
+    - One to consume more hydrogen, to be able to balance oxygen consumption.
     - Chemical plant mk1 is available from start.
  - Use "Burner power progression" (seperate mod) to adjust efficiencies of boiler tiers 
     - Fuel value for most chemical solids are doubled
