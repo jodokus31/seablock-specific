@@ -15,7 +15,7 @@ data:extend({
       {type = "fluid", name = "gas-hydrogen", amount = 80}
     },
     results = {
-      {type = "fluid", name = "steam", amount = 49}, -- plant consumes for ~19 steam in 1 sec.
+      {type = "fluid", name = "steam", amount = 49, temperature = 165}, -- plant consumes for ~19 steam in 1 sec.
     },
     always_show_products = true,
     icons = angelsmods.functions.create_liquid_recipe_icon(
@@ -44,7 +44,7 @@ data:extend({
       {type = "fluid", name = "gas-hydrogen", amount = 80}
     },
     results = {
-      {type = "fluid", name = "steam", amount = 42}, -- plant consumes for ~19 steam in 1 sec.
+      {type = "fluid", name = "steam", amount = 42, temperature = 165}, -- plant consumes for ~19 steam in 1 sec.
     },
     always_show_products = true,
     icons = angelsmods.functions.create_liquid_recipe_icon(
