@@ -41,17 +41,17 @@ Fuel values of chemical fuels (like coal or solid fuel) are doubled (except nucl
 ### Details:
  - Fuel value for most chemical solids are doubled
     - Don't adjust nuclear fuel, rocket fuel, etc.
+    - Known Issue: Burner furnaces are not changed, so they are double as efficient 
  - Boiler efficiency is tiered (percentages relative to unchanged values)
  - All tiers and fuel factors are customizable
- - Fuel values for most chemical solids are doubled
  - Default values:
-    - Boiler mk1: default 50.0% (actually 100% because of doubled fuel values)
-    - Boiler mk2: default 55.0% (actually 110%)
-    - Boiler mk3: default 62.5% (actually 125%)
-    - Boiler mk4: default 72.5% (actually 145%)
-    - Boiler mk5: default 85.0% (actually 170%)
-    - Fluid boiler mk1: default 100%
-    - Fluid boiler mk2: default 110%
-    - Fluid boiler mk3: default 125%
-    - Fluid boiler mk4: default 145%
+    - Boiler mk1: 50.0% (actually 100% because of doubled fuel values)
+    - Boiler mk2: 55.0% (actually 110%)
+    - Boiler mk3: 62.5% (actually 125%)
+    - Boiler mk4: 72.5% (actually 145%)
+    - Boiler mk5: 85.0% (actually 170%)
+    - Fluid boiler mk1: 100%
+    - Fluid boiler mk2: 110%
+    - Fluid boiler mk3: 125%
+    - Fluid boiler mk4: 145%
     - Nuclear efficiencies are unchanged
