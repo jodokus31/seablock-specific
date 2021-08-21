@@ -19,6 +19,11 @@ CAUTION: Voiding solid item by destroying containers won't work, because the ite
     - One to consume exactly the ratio of dirty electrolysis
     - One to consume more hydrogen, to be able to balance oxygen consumption.
     - Chemical plant mk1 is available from start.
+ - Rebalance sorting to encourage multioutput sorting.
+    - Catalyst/Mixed sorting yields less ores
+    - Multioutput sorting yields more higher tier ores and less of lower tier ores
+ - Lead plate usage in green science is doubled
+ - Milling drum recycling is cheaper
  - Use "Burner power progression" (seperate mod) to adjust efficiencies of boiler tiers 
     - Fuel value for most chemical solids are doubled
     - Nerfed boiler efficiencies compared to default settings
@@ -55,3 +60,4 @@ Fuel values of chemical fuels (like coal or solid fuel) are doubled (except nucl
     - Fluid boiler mk3: 125%
     - Fluid boiler mk4: 145%
     - Nuclear efficiencies are unchanged
+

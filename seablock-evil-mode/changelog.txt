@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.5
+Date: 2021.08.21
+  Changes:
+    - Rebalance sorting to encourage multioutput sorting.
+    - Catalyst/Mixed sorting yields less ores
+    - Multioutput sorting yields more higher tier ores and less of lower tier ores
+    - Lead plate usage in green science is doubled
+    - Milling drum recycling is cheaper
+---------------------------------------------------------------------------------------------------
 Version: 0.0.4
 Date: 2021.08.16
   Changes:
