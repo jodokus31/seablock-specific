@@ -23,11 +23,14 @@ local function mining_time_from_capacity(capacity)
   return capacity / 10000
 end
 
-for entity_name, entity in pairs(data.raw["storage-tank"]) do
-  local capacity = entity.fluid_box.base_area * 100
-  entity.minable.mining_time = mining_time_from_capacity(capacity)
-end
+if not settings.startup['seablock-evil-mode-disable-voiding-restrictions'].value then
+  
+  for entity_name, entity in pairs(data.raw["storage-tank"]) do
+    local capacity = entity.fluid_box.base_area * 100
+    entity.minable.mining_time = mining_time_from_capacity(capacity)
+  end
 
-for entity_name, entity in pairs(data.raw["fluid-wagon"]) do
-  entity.minable.mining_time = mining_time_from_capacity(entity.capacity)
+  for entity_name, entity in pairs(data.raw["fluid-wagon"]) do
+    entity.minable.mining_time = mining_time_from_capacity(entity.capacity)
+  end
 end

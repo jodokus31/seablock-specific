@@ -4,6 +4,7 @@
 
 Flaring gases and clarify fluids is heavily restricted and consumes more power. H2/O2 still can be voided, but also could be tranformed into steam.\
 Lower tier boilers are less efficient, but higher tiers get better.\
+Rebalance sorting to encourage multioutput sorting.\
 \
 CAUTION: Voiding solid item by destroying containers won't work, because the items get spilled on the ground.\
 
@@ -14,6 +15,9 @@ CAUTION: Voiding solid item by destroying containers won't work, because the ite
    Exceptions: (Hydrogen, Oxygen, Nitrogen, Chlorine, Compressed Air)
  - Spill items on the floor, when containers are getting destroyed
  - Increase mining time of storage tanks and fluid wagons
+ - Add option to disable voiding restrictions
+ - Add option to enable logging of removed fluids by picking up
+ - Add custom command /seablock_evil_mode_statistics_fluid_removed to show statistics of removed fluids
  - Flarestack consumes 5 times more power
  - Add 2 recipes to get a bit of steam from hydrogen/oxygen (activated from start)
     - One to consume exactly the ratio of dirty electrolysis

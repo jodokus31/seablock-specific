@@ -8,14 +8,14 @@ data:extend({
     name = "sbem-steam-from-h2-o2-1",
     category = "chemistry",
     subgroup = "petrochem-basics",
-    energy_required = 1.75, -- 1 sec. for 8 elecs on plant mk1
+    energy_required = 1, -- 1/1.75 sec. for 8 elecs on plant mk1
     enabled = true,
     ingredients = {
       {type = "fluid", name = "gas-oxygen", amount = 60},
       {type = "fluid", name = "gas-hydrogen", amount = 80}
     },
     results = {
-      {type = "fluid", name = "steam", amount = 49, temperature = 165}, -- plant consumes for ~19 steam in 1 sec.
+      {type = "fluid", name = "steam", amount = 25, temperature = 165}, -- plant consumes 258.3333 kW in 1 sec.
     },
     always_show_products = true,
     icons = angelsmods.functions.create_liquid_recipe_icon(
@@ -37,14 +37,14 @@ data:extend({
     name = "sbem-steam-from-h2-o2-2",
     category = "chemistry",
     subgroup = "petrochem-basics",
-    energy_required = 1.75, -- 1 sec. for 8 elecs on plant mk1
+    energy_required = 1, -- 1/1.75 sec. for 8 elecs on plant mk1
     enabled = true,
     ingredients = {
       {type = "fluid", name = "gas-oxygen", amount = 40},
       {type = "fluid", name = "gas-hydrogen", amount = 80}
     },
     results = {
-      {type = "fluid", name = "steam", amount = 42, temperature = 165}, -- plant consumes for ~19 steam in 1 sec.
+      {type = "fluid", name = "steam", amount = 21, temperature = 165}, -- plant consumes 258.3333 kW in 1 sec.
     },
     always_show_products = true,
     icons = angelsmods.functions.create_liquid_recipe_icon(
