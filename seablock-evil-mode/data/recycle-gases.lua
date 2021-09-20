@@ -1,3 +1,14 @@
+local energyrequired = 1
+local steamamount1 = 25
+local steamamount2 = 21
+
+if settings.startup['seablock-evil-mode-steam-recipe-mode'].value == "0_0_5" then
+  energyrequired = 1.75
+  steamamount1 = 49
+  steamamount2 = 42
+end
+
+
 data:extend({
 
   -- 1 steam(165 degree) == 30kJ
@@ -8,14 +19,14 @@ data:extend({
     name = "sbem-steam-from-h2-o2-1",
     category = "chemistry",
     subgroup = "petrochem-basics",
-    energy_required = 1, -- 1/1.75 sec. for 8 elecs on plant mk1
+    energy_required = energyrequired, -- 1/1.75 sec. for 8 elecs on plant mk1
     enabled = true,
     ingredients = {
       {type = "fluid", name = "gas-oxygen", amount = 60},
       {type = "fluid", name = "gas-hydrogen", amount = 80}
     },
     results = {
-      {type = "fluid", name = "steam", amount = 25, temperature = 165}, -- plant consumes 258.3333 kW in 1 sec.
+      {type = "fluid", name = "steam", amount = steamamount1, temperature = 165}, -- plant consumes 258.3333 kW in 1 sec.
     },
     always_show_products = true,
     icons = angelsmods.functions.create_liquid_recipe_icon(
@@ -37,14 +48,14 @@ data:extend({
     name = "sbem-steam-from-h2-o2-2",
     category = "chemistry",
     subgroup = "petrochem-basics",
-    energy_required = 1, -- 1/1.75 sec. for 8 elecs on plant mk1
+    energy_required = energyrequired, -- 1/1.75 sec. for 8 elecs on plant mk1
     enabled = true,
     ingredients = {
       {type = "fluid", name = "gas-oxygen", amount = 40},
       {type = "fluid", name = "gas-hydrogen", amount = 80}
     },
     results = {
-      {type = "fluid", name = "steam", amount = 21, temperature = 165}, -- plant consumes 258.3333 kW in 1 sec.
+      {type = "fluid", name = "steam", amount = steamamount2, temperature = 165}, -- plant consumes 258.3333 kW in 1 sec.
     },
     always_show_products = true,
     icons = angelsmods.functions.create_liquid_recipe_icon(
