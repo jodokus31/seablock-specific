@@ -1,8 +1,9 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.6
-Date: 2021.09.12
+Date: 2021.09.20
   Changes:
-    - Debuff steam recipes, because they were quite powerful. Before they returned more than 50% of the energy for electrolysis. Now, it's half of that.
+    - Debuff steam recipes, because they were quite powerful. Before they returned like 53% of the energy for electrolysis (+chemplant processing). Now, its like 28%.
+    - Add option to choose the old steam recipes from version 0.0.5
     - Add option to disable voiding restrictions
     - Add option to enable logging of removed fluids by picking up
     - Add custom command /seablock_evil_mode_statistics_fluid_removed to show statistics of removed fluids

@@ -15,6 +15,7 @@ CAUTION: Voiding solid item by destroying containers won't work, because the ite
    Exceptions: (Hydrogen, Oxygen, Nitrogen, Chlorine, Compressed Air)
  - Spill items on the floor, when containers are getting destroyed
  - Increase mining time of storage tanks and fluid wagons
+ - Add option to choose the old buffed steam recipes from version 0.0.5
  - Add option to disable voiding restrictions
  - Add option to enable logging of removed fluids by picking up
  - Add custom command /seablock_evil_mode_statistics_fluid_removed to show statistics of removed fluids
