@@ -78,10 +78,13 @@ local burner_generators =
 
     ["burner-generator"] = solid_tier1, --ks power
     ["big-burner-generator"] = solid_tier3, --ks power
-
-    --aai: use current value divided by fuel factor
-    ["burner-turbine"] = (data.raw["burner-generator"]["burner-turbine"].burner.effectivity / solid_fuel_factor), 
 }
+
+--aai: use current value divided by fuel factor
+if data.raw["burner-generator"]["burner-turbine"] then
+    burner_generators["burner-turbine"] = data.raw["burner-generator"]["burner-turbine"].burner.effectivity / solid_fuel_factor
+end
+
 
 local generators = 
 {
