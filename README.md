@@ -51,7 +51,7 @@ Fuel values of chemical fuels (like coal or solid fuel) are doubled (except nucl
 ### Details:
  - Fuel value for most chemical solids are doubled
     - Don't adjust nuclear fuel, rocket fuel, etc.
-    - Known Issue: Burner furnaces are not changed, so they are double as efficient 
+    - Known Issue: Burner furnaces, assemblers, etc. are not changed, so they are double as efficient
  - Boiler efficiency is tiered (percentages relative to unchanged values)
  - All tiers and fuel factors are customizable
  - Default values:
@@ -65,4 +65,5 @@ Fuel values of chemical fuels (like coal or solid fuel) are doubled (except nucl
     - Fluid boiler mk3: 125%
     - Fluid boiler mk4: 145%
     - Nuclear efficiencies are unchanged
-
+ - AAI: Respect the startup setting for burner engine, but divide by solid fuel factor (default: 85% / 2 => 42.5%)
+ - AAI: Also adjust fuel_category "processed-chemical"

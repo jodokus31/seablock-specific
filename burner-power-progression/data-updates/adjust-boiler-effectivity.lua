@@ -3,6 +3,8 @@ local default_tiers = require("default_tiers")
 local fuel_tiers_solid = settings.startup['burner-power-progression-tiers-solid'].value
 local fuel_tiers_fluid = settings.startup['burner-power-progression-tiers-fluid'].value
 
+local solid_fuel_factor = settings.startup['burner-power-progression-factor-solid'].value
+
 log("solid tiers: "..fuel_tiers_solid)
 log("fluid tiers: "..fuel_tiers_fluid)
 
@@ -76,6 +78,9 @@ local burner_generators =
 
     ["burner-generator"] = solid_tier1, --ks power
     ["big-burner-generator"] = solid_tier3, --ks power
+
+    --aai: use current value divided by fuel factor
+    ["burner-turbine"] = (data.raw["burner-generator"]["burner-turbine"].burner.effectivity / solid_fuel_factor), 
 }
 
 local generators = 
