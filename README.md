@@ -15,15 +15,15 @@ CAUTION: Voiding solid item by destroying containers won't work, because the ite
    Exceptions: (Hydrogen, Oxygen, Nitrogen, Chlorine, Compressed Air)
  - Spill items on the floor, when containers are getting destroyed
  - Increase mining time of storage tanks and fluid wagons
- - Add option to choose the old buffed steam recipes from version 0.0.5
- - Add option to disable voiding restrictions
- - Add option to enable logging of removed fluids by picking up
- - Add custom command /seablock_evil_mode_statistics_fluid_removed to show statistics of removed fluids
+ - Add option to disable voiding restrictions (Back to easy mode, if you only want the rest of the balancing changes)
+ - Add option to enable logging of removed fluids by picking up entities like buildings/pipes
+ - Add custom command /seablock_evil_mode_statistics_fluid_removed to show statistics of removed fluids by picking up entities like buildings/pipes
  - Flarestack consumes 5 times more power
  - Add 2 recipes to get a bit of steam from hydrogen/oxygen (activated from start)
     - One to consume exactly the ratio of dirty electrolysis
     - One to consume more hydrogen, to be able to balance oxygen consumption.
     - Chemical plant mk1 is available from start.
+    - Add option to choose the old buffed steam recipes from version 0.0.5
  - Rebalance sorting to encourage multioutput sorting.
     - Catalyst/Mixed sorting yields less ores
     - Multioutput sorting yields more higher tier ores and less of lower tier ores
