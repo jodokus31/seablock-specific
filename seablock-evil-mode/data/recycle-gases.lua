@@ -33,7 +33,7 @@ data:extend({
       {
         "steam"
       },
-      "www"
+      "WsHO"
     ),
     order = "a[sbem-steam-from-h2-o2-1]",
     crafting_machine_tint = {
@@ -62,7 +62,7 @@ data:extend({
       {
         "steam"
       },
-      "www"
+      "WsHO"
     ),
     order = "a[sbem-steam-from-h2-o2-2]",
     crafting_machine_tint = {
