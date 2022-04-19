@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.8
+Date: 2022.04.19
+  Bugfixes:
+    - Fixed nil access error in conjunction with the mod "Fluid Memory Storage". Add safety checks
+---------------------------------------------------------------------------------------------------
 Version: 0.0.7
 Date: 2022.03.12
   Bugfixes:
