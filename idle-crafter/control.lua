@@ -130,6 +130,16 @@ function get_recipe_for_name(search_name, player)
   end
 end
 
+function hint_missing_recipes(player, not_existing_recipes_string)
+  player.print("idle-crafter: Those items or recipes were not found: " .. not_existing_recipes_string)
+end
+
+function hint_general(player)
+  player.print("idle-crafter: Please enter an item or recipe name (internal name) in mod settings per player.")
+  player.print("idle-crafter: The internal name can be seen, if you press F4 and enable show-debug-info-in-tooltip in always tab")
+  player.print("idle-crafter: If you hover over an item or recipe in crafting view you can use item-name or recipe-name")
+end
+
 function split_setting_string(input)
   local delimiter = "%s,;" -- whitespace, "," or ";"
   local output = {}
@@ -271,20 +281,16 @@ function check_player(player, force_check)
         -- report only once as long as nothing changes
         if not data.reported_recipes or data.reported_recipes ~= not_existing_recipes_string then
           data.reported_recipes = not_existing_recipes_string
-          player.print("idle-crafter: Those items or recipes were not found: " .. not_existing_recipes_string)
+          hint_missing_recipes(player, not_existing_recipes_string)
         end
       end
 
       if not recipe_exists then
         data.error_state = true
-        player.print("idle-crafter: Those items or recipes were not found: " .. not_existing_recipes_string)
-        player.print("idle-crafter: Please enter a item or recipe named (internal name) in mod settings per player.")
-        player.print("idle-crafter: The internal name can be seen, if you press F4 and enable show-debug-info-in-tooltip in always tab")
-        player.print("idle-crafter: If you hover over an item or recipe in crafting view you can use item-name or recipe-name")
+        hint_missing_recipes(player, not_existing_recipes_string)
+        hint_general(player)
       end
-
     end
-
   end
 end
 
@@ -317,17 +323,26 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
   end
 end)
 
+function check_settings_and_hint()
+  for _, player in pairs(game.connected_players) do
+    local data = get_player_data(player.index)
+    data.item_or_recipe_names = settings.get_player_settings(player.index)["idle-crafter-product-or-recipe-names"].value
+    if not data.item_or_recipe_names or data.item_or_recipe_names == "" then
+      hint_general(player)
+    end
+  end
+end
+
 script.on_init(function()
   global.player_data = {}
   player_data = {}
-  game.print("idle-crafter: Please enter an item or recipe name (internal name) in mod settings per player.")
-  game.print("idle-crafter: The internal name can be seen, if you press F4 and enable show-debug-info-in-tooltip in always tab")
-  game.print("idle-crafter: If you hover over an item or recipe in crafting view you can use item-name or recipe-name")
+  check_settings_and_hint()
 end)
 
 script.on_configuration_changed(function()
   global.player_data = {}
   player_data = {}
+  check_settings_and_hint()
 end)
 
 script.on_load(function()
