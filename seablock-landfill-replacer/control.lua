@@ -17,14 +17,14 @@ function replace_landfill(blueprint, player)
 
     game.print("Replace all landfill with: " .. default_tile)
 
-    local index = 0
+    local index = 1
     local new_tiles = {}
 
     if old_tiles then
       for _, old_tile in pairs(old_tiles) do
         if landfilltilesByName[old_tile.name] then
           local pos = old_tile.position
-          new_tiles[index + 1] = { name = default_tile, position = { pos.x, pos.y } }
+          new_tiles[index] = { name = default_tile, position = { pos.x, pos.y } }
           index = index + 1
         end
       end
