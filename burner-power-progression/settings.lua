@@ -3,6 +3,15 @@ local default_tiers = require("default_tiers")
 
 data:extend({
   {
+      type = "bool-setting",
+      name = "burner-power-progression-disabled",
+      order = "aaa",
+      setting_type = "startup",
+      default_value = false,
+  }})
+
+data:extend({
+  {
       type = "double-setting",
       name = "burner-power-progression-factor-solid",
       order = "effectivity-a1",
