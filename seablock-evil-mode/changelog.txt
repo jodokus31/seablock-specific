@@ -3,6 +3,7 @@ Version: 0.0.9
 Date: 2022.11.04
   Changes:
     - Make different key features disengageable in settings: voiding restrictions, sorting rebalance, steam recipes, lead in green science and cost reduction of millingdrum recycling
+    - Fix, that some fluids on died or mined entities weren't tracked correctly
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.8
 Date: 2022.04.19

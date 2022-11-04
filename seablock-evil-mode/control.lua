@@ -2,28 +2,7 @@ script.on_init(function()
   global.SeablockEvilMode_Statistics_FluidRemoved = {}
 end)
 
-function on_entity_died_handler(event)
-  local entity = event.entity
-  
-  for i = 1, 10 do
-    if entity.get_inventory(i) then
-      for item_name, count in pairs(event.entity.get_inventory(i).get_contents()) do
-        entity.surface.spill_item_stack(entity.position, {name = item_name, count = count} )
-      end
-    end
-  end
-end
-
-local filter_container_types = {
-  {filter = "type", type = "container"},
-  {filter = "type", type = "cargo-wagon"},
-  {filter = "type", type = "logistic-container"},
-  {filter = "type", type = "car"},
-}
-
-script.on_event(defines.events.on_entity_died, on_entity_died_handler, filter_container_types)
-
-function on_mined_fluid_container(event)
+function on_mined_or_died_fluid_container(event)
   
   local entity = event.entity
     
@@ -36,30 +15,58 @@ function on_mined_fluid_container(event)
     global.SeablockEvilMode_Statistics_FluidRemoved[name] = 
       (global.SeablockEvilMode_Statistics_FluidRemoved[name] or 0) + amount
     
-    if event.player_index and game.players[event.player_index] then
+    local players = {}
+    if event.player_index then
+      player = game.players[event.player_index]
+      if player then
+        table.insert(players, player)
+      end
+    elseif event.cause then
+      player = event.cause.player
+      if player then
+        table.insert(players, player)
+      end
+    elseif event.robot and event.robot.force then
+      for _, player in pairs(game.players) do
+        if player.force.name == event.robot.force.name then
+          table.insert(players, player)
+        end
+      end
+    end
 
-      if settings.get_player_settings(event.player_index)["seablock-evil-mode-enable-fluid-removed-log"].value then
+    for _, player in pairs(players) do
+      if settings.get_player_settings(player.index)["seablock-evil-mode-enable-fluid-removed-log"].value then
         local remove_fluid_text = 
           string.format("fluid removed %s: %.4f (overall: %.4f)", 
             name, amount, global.SeablockEvilMode_Statistics_FluidRemoved[name])
         
-        game.players[event.player_index].print(remove_fluid_text)
+        player.print(remove_fluid_text)
       end
     end
-  end  
+  end
 end
 
-local filter_fluid_types = {
-  {filter = "type", type = "storage-tank"},
-  {filter = "type", type = "fluid-wagon", mode = "or"},
-  {filter = "type", type = "pipe", mode = "or"},
-  {filter = "type", type = "pipe-to-ground", mode = "or"},
-  {filter = "type", type = "assembling-machine", mode = "or"},
-}
+script.on_event(defines.events.on_player_mined_entity, on_mined_or_died_fluid_container)
+script.on_event(defines.events.on_robot_mined_entity, on_mined_or_died_fluid_container)
 
-script.on_event(defines.events.on_player_mined_entity, on_mined_fluid_container, filter_fluid_types)
-script.on_event(defines.events.on_robot_mined_entity, on_mined_fluid_container, filter_fluid_types)
+function on_entity_died_handler(event)
+  local entity = event.entity
+  
+  for inventory_type = 1, 10 do
+    local inventory = entity.get_inventory(inventory_type)
+    if inventory then
+      for item_name, count in pairs(inventory.get_contents()) do
+        -- don't spill on belts
+        entity.surface.spill_item_stack(entity.position, {name = item_name, count = count}, false, nil, false)
+      end
+    end
+  end
 
+  -- in case the died entity contained fluids
+  on_mined_or_died_fluid_container(event)
+end
+
+script.on_event(defines.events.on_entity_died, on_entity_died_handler)
 
 commands.add_command(
   "seablock_evil_mode_statistics_fluid_removed", 
