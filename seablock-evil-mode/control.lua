@@ -36,12 +36,15 @@ function on_mined_fluid_container(event)
     global.SeablockEvilMode_Statistics_FluidRemoved[name] = 
       (global.SeablockEvilMode_Statistics_FluidRemoved[name] or 0) + amount
     
-    if settings.startup['seablock-evil-mode-enable-fluid-removed-log'].value then
-      local remove_fluid_text = 
-        string.format("fluid removed %s: %.4f (overall: %.4f)", 
-          name, amount, global.SeablockEvilMode_Statistics_FluidRemoved[name])
-      
-      game.print(remove_fluid_text)
+    if event.player_index and game.players[event.player_index] then
+
+      if settings.get_player_settings(event.player_index)["seablock-evil-mode-enable-fluid-removed-log"].value then
+        local remove_fluid_text = 
+          string.format("fluid removed %s: %.4f (overall: %.4f)", 
+            name, amount, global.SeablockEvilMode_Statistics_FluidRemoved[name])
+        
+        game.players[event.player_index].print(remove_fluid_text)
+      end
     end
   end  
 end

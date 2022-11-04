@@ -1,11 +1,11 @@
 {
   "name": "seablock-evil-mode",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "title": "Sea Block - Evil mode",
   "author": "jodokus31",
   "contact": "",
   "homepage": "",
-  "description": "Flaring gases and clarify fluids is heavily restricted and consumes more power. H2/O2 still can be voided, but also could be tranformed into steam.\nLower tier boilers are less efficient, but higher tiers get better.\nRebalance sorting to encourage multioutput sorting.\n\nCAUTION: Voiding solid item by destroying containers won't work, because the items get spilled on the ground.\n",
+  "description": "Voiding fluids and gas is heavily restricted.\n\nAlso, some additional changes, which makes Seablock tougher, but sometimes with some potential to get more efficient\nEvery key feature is disengageable separately\n",
   "factorio_version":"1.1",
   "dependencies": [
     "base >= 1.1.0", 

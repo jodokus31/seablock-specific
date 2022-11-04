@@ -10,9 +10,10 @@ if not settings.startup['seablock-evil-mode-disable-voiding-restrictions'].value
   --data.raw["furnace"]["angels-flare-stack"].crafting_speed = data.raw["furnace"]["angels-flare-stack"].crafting_speed / 2
 end
 
-
---enable chemical plant mk1 from start
-libfunctions.adjust_recipe_enabled(data.raw["recipe"]["angels-chemical-plant"], true)
-
 --enable clarifier from start
 --adjust_recipe_enabled(data.raw["recipe"]["clarifier"], true)
+
+if not settings.startup['seablock-evil-mode-disable-steam-recipe'].value then
+  --enable chemical plant mk1 from start
+  libfunctions.adjust_recipe_enabled(data.raw["recipe"]["angels-chemical-plant"], true)
+end
