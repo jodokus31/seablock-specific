@@ -222,6 +222,7 @@ function check_player(player, force_check)
           end
         end
 
+        local recipe = nil
         if not count or (player_item_count < count) then
           recipe_exists, recipe = get_recipe_for_name(name, player)
           if recipe_exists then
@@ -256,8 +257,9 @@ function check_player(player, force_check)
                     recipe = recipe, 
                     silent = true 
                   }
-
-                data.recheck_tick = game.tick + time_remaining*60 + recipe.energy*60 - GLOBAL_RECHECK_INTERVAL
+                
+                local recipe_ticks = (recipe and recipe.energy and recipe.energy*60) or 60
+                data.recheck_tick = game.tick + time_remaining*60 + recipe_ticks - GLOBAL_RECHECK_INTERVAL
                 data.recipe_not_craftable_count = 0
                 break
               end
