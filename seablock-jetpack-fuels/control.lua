@@ -1,10 +1,10 @@
 function get_jetpack_fuels()
 	local fuel_list = 
 	{
-		["pellet-charcoal"] = settings.startup["seablock-jetpack-fuels-pellet-charcoal"].value,
 		["enriched-fuel"] = settings.startup["seablock-jetpack-fuels-enriched-fuel"].value,
-		["wood-charcoal"] = settings.startup["seablock-jetpack-fuels-wood-charcoal"].value,
+		["pellet-charcoal"] = settings.startup["seablock-jetpack-fuels-pellet-charcoal"].value,
 		["wood-brick"] = settings.startup["seablock-jetpack-fuels-wood-brick"].value,
+		["wood-charcoal"] = settings.startup["seablock-jetpack-fuels-wood-charcoal"].value,
 	}
 
 	-- remove entries with thrust 0.0
@@ -18,7 +18,6 @@ function get_jetpack_fuels()
 	-- game.print(serpent.block(filtered_list))
 
 	return filtered_list
-	
 end
 
 remote.add_interface("seablock-jetpack-fuels", { jetpack_fuels = get_jetpack_fuels })

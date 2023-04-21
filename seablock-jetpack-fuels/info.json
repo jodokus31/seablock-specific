@@ -1,10 +1,10 @@
 {
   "name": "seablock-jetpack-fuels",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "title": "Jetpack Fuels for Seablock",
   "author": "jodokus31",
   "factorio_version": "1.1",
-  "description": "Add seablock fuels like charcoal pellets or enriched to be used as jetpack fuels and customize thrust level.",
+  "description": "Add seablock fuels like charcoal pellets or enriched fuel blocks to be used as jetpack fuels and customize their thrust levels in the settings.",
   "dependencies": [
     "base", 
     "jetpack >= 0.3.6", 
