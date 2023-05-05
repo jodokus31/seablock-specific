@@ -1,0 +1,6 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.0.0
+Date: 2023-05-05
+  Features:
+    - Initial release
+    - Currently only chests, crafting machines (no furnaces) and ammo turrets are supported.

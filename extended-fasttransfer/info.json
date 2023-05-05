@@ -1,0 +1,11 @@
+{
+  "name": "extended-fasttransfer",
+  "version": "0.0.1",
+  "title": "Extended Fast Transfer",
+  "author": "jodokus31",
+  "contact": "",
+  "homepage": "",
+  "description": "More Hotkeys to fast transfer items from entities to player and vice versa. \nf.e. top-up stacks of items in player's inventory, quickstack items into chest, drop more than one item into an entity, etc.",
+  "factorio_version": "1.1",
+  "dependencies": [ "base >= 1.1" ]
+}
