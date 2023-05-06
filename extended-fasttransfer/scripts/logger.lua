@@ -1,6 +1,6 @@
 local logger = {}
 
-logger.DEBUG = true
+logger.DEBUG = false
 
 function logger.print(player_or_player_index, text)
 	if not logger.DEBUG then
