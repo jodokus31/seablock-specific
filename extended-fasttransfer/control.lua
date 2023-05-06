@@ -117,6 +117,7 @@ local function common_custominput_handler(e)
 	end
 
 	handle_action_on_entity(player, selected_entity, state, tick)
+	actiontype.reset_action(state)
 end
 
 script.on_event(custom_inputs.topupplayerstacks, common_custominput_handler)
