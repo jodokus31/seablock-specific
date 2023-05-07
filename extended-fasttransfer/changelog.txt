@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.4
+Date: 2023-05-07
+  Features:
+    - Revert: Dragging happens again always
+    - Omit a direct press of the hotkey, if a drag was successfull in last 15 ticks. This avoids multiple actions: one from dragging and one from hitting the key.
+    - Play move sound, if items got moved
+---------------------------------------------------------------------------------------------------
 Version: 0.0.3
 Date: 2023-05-06
   Features:

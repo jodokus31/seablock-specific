@@ -1,3 +1,5 @@
+local IGNORE_DIRECT_ACTION_AFTER_DRAG = 15
+
 local custom_inputs = require("custom_inputs")
 
 local chest = require("scripts/chest")
@@ -22,6 +24,7 @@ function get_player_state(player_index)
 		{
 			last_action_tick = nil,
 			last_action_types = nil,
+			last_drag_action_happened = nil,
 			setting_custom_drop_amount = settings.get_player_settings(player_index)["extended-fasttransfer-custom-drop-amount"].value,
 			setting_max_ammo_amount    = settings.get_player_settings(player_index)["extended-fasttransfer-max-ammo-amount"].value,
 		}
@@ -30,7 +33,7 @@ function get_player_state(player_index)
 	return state
 end
 
-local function handle_action_on_entity(player, selected_entity, state, tick)
+local function handle_action_on_entity(player, selected_entity, state, tick, is_from_drag)
 
 	local flying_text_infos = nil
 	if selected_entity.type == "container" or selected_entity.type == "logistic-container" then
@@ -88,6 +91,16 @@ local function handle_action_on_entity(player, selected_entity, state, tick)
 
 	end
 	flying_text.create_flying_text_entities(selected_entity, flying_text_infos)
+	
+	if flying_text_infos and next(flying_text_infos) then
+		--something has moved
+		player.play_sound({ path = "utility/inventory_move" })
+		
+		if is_from_drag then
+			logger.print(player, "drag action happened: "..tick)
+			state.last_drag_action_happened = tick
+		end
+	end
 end
 
 local function common_custominput_handler(e)
@@ -116,8 +129,14 @@ local function common_custominput_handler(e)
 		return
 	end
 
-	handle_action_on_entity(player, selected_entity, state, tick)
-	actiontype.reset_action(state)
+	logger.print(player, "should omit direct call?: "..tick
+		.." state.last_drag_action_happened: " .. (state.last_drag_action_happened or "nil"))
+	if not state.last_drag_action_happened or (state.last_drag_action_happened + IGNORE_DIRECT_ACTION_AFTER_DRAG) <= tick then
+		handle_action_on_entity(player, selected_entity, state, tick, false)
+		state.last_drag_action_happened = nil
+	end
+	
+	--actiontype.reset_action(state)
 end
 
 script.on_event(custom_inputs.topupplayerstacks, common_custominput_handler)
@@ -151,7 +170,7 @@ script.on_event(defines.events.on_selected_entity_changed, function(e)
 		return
 	end
 
-	handle_action_on_entity(player, selected_entity, state, tick)
+	handle_action_on_entity(player, selected_entity, state, tick, true)
 
 end)
 
