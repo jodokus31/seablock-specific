@@ -33,10 +33,27 @@ function get_player_state(player_index)
 	return state
 end
 
+local entity_groups = 
+{
+	["assembling-machine"]	= "assembling-machine",
+	["container"] 					= "container",
+	["logistic-container"]	= "container",
+	["ammo-turret"] 				= "ammo-turret"
+}
+
 local function handle_action_on_entity(player, selected_entity, state, tick, is_from_drag)
 
+	local entity_group = entity_groups[selected_entity.type]
+	if not entity_group then
+		return nil
+	end
+
+	if not player.can_reach_entity(selected_entity) then
+		return nil
+	end
+
 	local flying_text_infos = nil
-	if selected_entity.type == "container" or selected_entity.type == "logistic-container" then
+	if entity_group == "container" then
 
 		local inventory = selected_entity.get_inventory(defines.inventory.chest)
 		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
@@ -56,7 +73,7 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 			end
 		end
 		
-	elseif selected_entity.type == "ammo-turret" then
+	elseif entity_group == "ammo-turret" then
 
 		local inventory = selected_entity.get_inventory(defines.inventory.turret_ammo)
 		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
@@ -71,7 +88,7 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 			end
 		end
 
-	elseif selected_entity.type == "assembling-machine" then
+	elseif entity_group == "assembling-machine" then
 		
 		local inventory = selected_entity.get_inventory(defines.inventory.assembling_machine_input)
 		
@@ -131,12 +148,17 @@ local function common_custominput_handler(e)
 
 	logger.print(player, "should omit direct call?: "..tick
 		.." state.last_drag_action_happened: " .. (state.last_drag_action_happened or "nil"))
+
+	if entity_groups[selected_entity.type] and not player.can_reach_entity(selected_entity)  then
+		player.play_sound({ path = "utility/cannot_build" })
+		flying_text.create_flying_text_entity_for_cant_reach(selected_entity)
+		return
+	end
+	
 	if not state.last_drag_action_happened or (state.last_drag_action_happened + IGNORE_DIRECT_ACTION_AFTER_DRAG) <= tick then
 		handle_action_on_entity(player, selected_entity, state, tick, false)
 		state.last_drag_action_happened = nil
 	end
-	
-	--actiontype.reset_action(state)
 end
 
 script.on_event(custom_inputs.topupplayerstacks, common_custominput_handler)

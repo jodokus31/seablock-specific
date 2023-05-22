@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.5
+Date: 2023-05-22
+  Bugfixes:
+    - Prevent interaction with entities out of reach
+    - Play sound and emit "Cant reach" text, when entity is not reachable
+    - Slightly reduce interval to detect a drag.
+---------------------------------------------------------------------------------------------------
 Version: 0.0.4
 Date: 2023-05-07
   Features:
