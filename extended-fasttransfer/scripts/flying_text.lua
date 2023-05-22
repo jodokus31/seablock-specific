@@ -23,4 +23,14 @@ function flying_text.create_flying_text_entities(entity, flying_text_infos)
 	end
 end
 
+function flying_text.create_flying_text_entity_for_cant_reach(entity)
+	entity.surface.create_entity(
+			{
+				name = "extended-fasttransfer-flying-text",
+				position = { entity.position.x - 0.5, entity.position.y + (offset or 0) },
+				text = {"cant-reach"},
+				color = { r = 1, g = 1, b = 1 } -- white
+			})
+end
+
 return flying_text

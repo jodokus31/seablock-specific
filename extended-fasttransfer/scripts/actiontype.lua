@@ -1,6 +1,6 @@
 local actiontype = {}
 
-local TICKS_TO_DETECT_DRAG = 15
+local TICKS_TO_DETECT_DRAG = 10
 
 local logger = require("scripts/logger")
 
