@@ -13,7 +13,7 @@ data:extend({
     name = "seablock-evil-mode-disable-sorting-rebalance",
     order = "a2",
     setting_type = "startup",
-    default_value = false,
+    default_value = true,
 }})
 
 data:extend({
@@ -22,7 +22,7 @@ data:extend({
     name = "seablock-evil-mode-disable-steam-recipe",
     order = "a3",
     setting_type = "startup",
-    default_value = false,
+    default_value = true,
 }})
 
 data:extend({
@@ -41,7 +41,7 @@ data:extend({
     name = "seablock-evil-mode-disable-misc",
     order = "a4",
     setting_type = "startup",
-    default_value = false,
+    default_value = true,
 }})
 
 data:extend({

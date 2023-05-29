@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.0
+Date: 2023.05.29
+  Changes:
+    - Evil mode is mainly for voiding restriction. Disable other features by default (Running games are not affected)
+    - Only voiding restrictions are enabled by default
+    - Burner power progression is made optional
+  Bugfixes:
+    - Fix, that flushed fluids weren't tracked correctly for statistics
+---------------------------------------------------------------------------------------------------
 Version: 0.0.9
 Date: 2022.11.04
   Changes:

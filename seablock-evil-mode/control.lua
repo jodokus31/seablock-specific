@@ -11,9 +11,9 @@ function on_mined_or_died_fluid_container(event)
   
   local fluid_contents = entity.get_fluid_contents()
   
-  for name, amount in pairs(fluid_contents) do
-    global.SeablockEvilMode_Statistics_FluidRemoved[name] = 
-      (global.SeablockEvilMode_Statistics_FluidRemoved[name] or 0) + amount
+  for fluid, amount in pairs(fluid_contents) do
+    global.SeablockEvilMode_Statistics_FluidRemoved[fluid] = 
+      (global.SeablockEvilMode_Statistics_FluidRemoved[fluid] or 0) + amount
     
     local players = {}
     if event.player_index then
@@ -38,7 +38,7 @@ function on_mined_or_died_fluid_container(event)
       if settings.get_player_settings(player.index)["seablock-evil-mode-enable-fluid-removed-log"].value then
         local remove_fluid_text = 
           string.format("fluid removed %s: %.4f (overall: %.4f)", 
-            name, amount, global.SeablockEvilMode_Statistics_FluidRemoved[name])
+            fluid, amount, global.SeablockEvilMode_Statistics_FluidRemoved[fluid])
         
         player.print(remove_fluid_text)
       end
@@ -48,6 +48,39 @@ end
 
 script.on_event(defines.events.on_player_mined_entity, on_mined_or_died_fluid_container)
 script.on_event(defines.events.on_robot_mined_entity, on_mined_or_died_fluid_container)
+
+local function on_player_flushed_fluid(event)
+  -- player_index 	:: uint Index of the player
+  -- fluid 	:: string Name of a fluid that was flushed
+  -- amount 	:: double Amount of fluid that was removed
+  -- entity 	:: LuaEntity Entity from which flush was performed
+  -- only_this_entity 	:: boolean True if flush was requested only on this entity
+  -- name 	:: defines.events Identifier of the event
+  -- tick 	:: uint Tick the event was generated.
+
+  local amount = event.amount
+  local fluid = event.fluid
+
+  global.SeablockEvilMode_Statistics_FluidRemoved = global.SeablockEvilMode_Statistics_FluidRemoved or {}
+  global.SeablockEvilMode_Statistics_FluidRemoved[fluid] = (global.SeablockEvilMode_Statistics_FluidRemoved[fluid] or 0) + amount
+
+  if not event.player_index then
+    return
+  end
+
+  if settings.get_player_settings(event.player_index)["seablock-evil-mode-enable-fluid-removed-log"].value then
+    local player = game.players[event.player_index]
+    if player then
+      local remove_fluid_text = 
+        string.format("fluid removed %s: %.4f (overall: %.4f)", 
+          fluid, amount, global.SeablockEvilMode_Statistics_FluidRemoved[fluid])
+    
+      player.print(remove_fluid_text)
+    end
+  end
+end
+
+script.on_event(defines.events.on_player_flushed_fluid, on_player_flushed_fluid)
 
 function on_entity_died_handler(event)
   local entity = event.entity
