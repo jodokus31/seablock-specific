@@ -3,7 +3,7 @@ function get_jetpack_fuels()
 	{
 		["enriched-fuel"] = settings.startup["seablock-jetpack-fuels-enriched-fuel"].value,
 		["pellet-charcoal"] = settings.startup["seablock-jetpack-fuels-pellet-charcoal"].value,
-		["wood-brick"] = settings.startup["seablock-jetpack-fuels-wood-brick"].value,
+		["wood-bricks"] = settings.startup["seablock-jetpack-fuels-wood-brick"].value,
 		["wood-charcoal"] = settings.startup["seablock-jetpack-fuels-wood-charcoal"].value,
 	}
 
