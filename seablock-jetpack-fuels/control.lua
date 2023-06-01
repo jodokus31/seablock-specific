@@ -1,5 +1,5 @@
-function get_jetpack_fuels()
-	local fuel_list = 
+local function get_jetpack_fuels()
+	local fuel_list =
 	{
 		["enriched-fuel"] = settings.startup["seablock-jetpack-fuels-enriched-fuel"].value,
 		["pellet-charcoal"] = settings.startup["seablock-jetpack-fuels-pellet-charcoal"].value,

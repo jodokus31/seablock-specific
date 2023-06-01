@@ -1,9 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.3
-Date: 2023.05.31
+Date: 2023.06.01
   Bugfixes:
     - Fixed, that wood bricks didn't work
     - Adjust default values of wood bricks and charcoal. New update of Jetpack mod prioritizes the fuel with highest thrust 
+    - Fix coding issues detected by FMTK
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.2
 Date: 2023.04.21
