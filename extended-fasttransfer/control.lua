@@ -17,10 +17,10 @@ script.on_init(function()
 	global.player_state = {}
 end)
 
-function get_player_state(player_index)
+local function get_player_state(player_index)
 	local state = global.player_state[player_index]
 	if not state then
-		state = 
+		state =
 		{
 			last_action_tick = nil,
 			last_action_types = nil,
@@ -33,7 +33,7 @@ function get_player_state(player_index)
 	return state
 end
 
-local entity_groups = 
+local entity_groups =
 {
 	["assembling-machine"]	= "assembling-machine",
 	["container"] 					= "container",
@@ -72,7 +72,7 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 				flying_text_infos = drop.dropitems(player, inventory, state.setting_custom_drop_amount)
 			end
 		end
-		
+
 	elseif entity_group == "ammo-turret" then
 
 		local inventory = selected_entity.get_inventory(defines.inventory.turret_ammo)
@@ -89,9 +89,9 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 		end
 
 	elseif entity_group == "assembling-machine" then
-		
+
 		local inventory = selected_entity.get_inventory(defines.inventory.assembling_machine_input)
-		
+
 		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
 				flying_text_infos = assembler.pickupcraftingslots(player, selected_entity)
@@ -108,11 +108,11 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 
 	end
 	flying_text.create_flying_text_entities(selected_entity, flying_text_infos)
-	
+
 	if flying_text_infos and next(flying_text_infos) then
 		--something has moved
 		player.play_sound({ path = "utility/inventory_move" })
-		
+
 		if is_from_drag then
 			logger.print(player, "drag action happened: "..tick)
 			state.last_drag_action_happened = tick
@@ -120,8 +120,10 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 	end
 end
 
+---comment
+---@param e EventData.CustomInputEvent
 local function common_custominput_handler(e)
-	
+
 	local player = game.get_player(e.player_index)
 	if not player or not player.valid then
 		return
@@ -154,7 +156,7 @@ local function common_custominput_handler(e)
 		flying_text.create_flying_text_entity_for_cant_reach(selected_entity)
 		return
 	end
-	
+
 	if not state.last_drag_action_happened or (state.last_drag_action_happened + IGNORE_DIRECT_ACTION_AFTER_DRAG) <= tick then
 		handle_action_on_entity(player, selected_entity, state, tick, false)
 		state.last_drag_action_happened = nil
@@ -168,7 +170,9 @@ script.on_event(custom_inputs.quickstack, common_custominput_handler)
 script.on_event(custom_inputs.partialstacks, common_custominput_handler)
 script.on_event(custom_inputs.dropitems, common_custominput_handler)
 
-script.on_event(defines.events.on_selected_entity_changed, function(e)
+---comment
+---@param e EventData.on_selected_entity_changed
+local function on_selected_entity_changed(e)
 
 	local state = get_player_state(e.player_index)
 	if not state.last_action_tick then
@@ -194,17 +198,24 @@ script.on_event(defines.events.on_selected_entity_changed, function(e)
 
 	handle_action_on_entity(player, selected_entity, state, tick, true)
 
-end)
+end
 
-script.on_event(defines.events.on_player_fast_transferred, function(e)
+script.on_event(defines.events.on_selected_entity_changed, on_selected_entity_changed)
+
+---comment
+---@param e EventData.on_player_fast_transferred
+local function on_player_fast_transferred(e)
 	-- stop, if something is fast transfered regulary
 	logger.print(e.player_index, "stop, if something is fast transfered regulary")
 	local state = get_player_state(e.player_index)
 	actiontype.reset_action(state)
-end)
+end
+script.on_event(defines.events.on_player_fast_transferred, on_player_fast_transferred)
 
-script.on_event(defines.events.on_runtime_mod_setting_changed, function(e)
-  
+---comment
+---@param e EventData.on_runtime_mod_setting_changed
+local function on_runtime_mod_setting_changed(e)
+
 	if e.setting == "extended-fasttransfer-custom-drop-amount" then
     local state = get_player_state(e.player_index)
     state.setting_custom_drop_amount = settings.get_player_settings(e.player_index)[e.setting].value
@@ -213,4 +224,6 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, function(e)
     state.setting_max_ammo_amount = settings.get_player_settings(e.player_index)[e.setting].value
   end
 
-end)
+end
+
+script.on_event(defines.events.on_runtime_mod_setting_changed, on_runtime_mod_setting_changed)

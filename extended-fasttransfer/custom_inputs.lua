@@ -1,4 +1,4 @@
-local custom_inputs = 
+local custom_inputs =
 {
   topupplayerstacks = "extended-fasttransfer-custominput-topupplayerstacks",
   pickupcraftingslots = "extended-fasttransfer-custominput-pickupcraftingslots",
