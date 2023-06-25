@@ -20,4 +20,6 @@ local function get_jetpack_fuels()
 	return filtered_list
 end
 
-remote.add_interface("seablock-jetpack-fuels", { jetpack_fuels = get_jetpack_fuels })
+if script.active_mods["jetpack"] then
+	remote.add_interface("seablock-jetpack-fuels", { jetpack_fuels = get_jetpack_fuels })
+end
