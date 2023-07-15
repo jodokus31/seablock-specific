@@ -1,11 +1,11 @@
 {
   "name": "seablock-derandomizer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "title": "Sea Block - Derandomizer",
   "author": "jodokus31",
   "contact": "",
   "homepage": "",
-  "description": "Derandomizer. Currently only adjusting the Mineralized Crystallization recipe to reduce randomness, while keeping the ratio",
+  "description": "Derandomizer. Reduces or removes RNG from Seablock recipes to get more comparable experiences",
   "factorio_version": "1.1",
   "dependencies": ["base >= 1.1.0", "SeaBlock"]
 }
