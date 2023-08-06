@@ -40,3 +40,5 @@ luac.out
 *.hex
 
 *.code-workspace
+*.vscode/settings.json
+*.vscode/launch.json

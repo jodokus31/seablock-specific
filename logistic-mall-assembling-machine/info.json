@@ -1,0 +1,13 @@
+{
+  "name": "logistic-mall-assembling-machine",
+  "version": "0.0.1",
+  "title": "Logistic Mall Assembling Machine",
+  "author": "jodokus31",
+  "contact": "",
+  "homepage": "",
+  "description": "Adds an assembling machine with integrated requester chest, which is able to craft only items usually produced in a mall.",
+  "factorio_version": "1.1",
+  "dependencies": [
+    "base >= 1.1.0"
+  ]
+}
