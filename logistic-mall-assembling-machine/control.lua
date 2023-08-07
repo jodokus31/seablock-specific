@@ -105,34 +105,32 @@ local function set_requests(lmam, recipe)
 
         local previous_tier_item_group = get_previous_tier_item_group(product_item_group, ingredient_name)
         if previous_tier_item_group then
+          request_amount = 1
           if previous_tier_item_group == "ammo" then
             request_amount = 20
 
           elseif previous_tier_item_group == "capsule" then
             request_amount = 2
-
-          else
-            request_amount = 1
           end
 
           request_from_buffers = true
-
         else
-          local factor = 1
+          request_amount = v.amount
           if product_item_group then
             if product_item_group == "placeable" then
-              factor = 2
+              request_amount = 2*v.amount
+
             elseif product_item_group == "repair-tool"
                 or product_item_group == "ammo"
                 or product_item_group == "capsule" then
-              factor = 5
+              request_amount = 5*v.amount
+
             elseif product_item_group == "rail-planner" then
-              factor = 50
+              request_amount = 50
             end
           end
           local ingredient_prototype = game.item_prototypes[ingredient_name]
           local ingredient_stacksize = ingredient_prototype and ingredient_prototype.stack_size
-          request_amount = factor * v.amount
           if ingredient_prototype and request_amount > ingredient_stacksize then
             request_amount = ingredient_stacksize
           end
@@ -155,8 +153,7 @@ local function set_requests(lmam, recipe)
     local product_prototype = product_name and game.item_prototypes[product_name] or nil
 
     if product_name and product_prototype then
-      local chest_output_capacity = 48 * product_prototype.stack_size
-      --local chest_output_capacity = lmam.chest_output.request_slot_count * product_prototype.stack_size
+      local chest_output_capacity = lmam.chest_output.prototype.get_inventory_size(defines.inventory.chest) * product_prototype.stack_size
       if chest_output_capacity > 0 then
         lmam.chest_output.set_request_slot( { name = product_name, count = chest_output_capacity }, 1)
       end
@@ -384,6 +381,33 @@ local REMOVE_MODE =
   script_destroyed = 4,
 }
 
+local function handle_chest(chest, player, force, remove_mode)
+  local chest_remainder_input = replace_chest(chest, player)
+  if chest_remainder_input then
+    chest_remainder_input.order_deconstruction(force, player)
+    if remove_mode == REMOVE_MODE.by_player then
+      player.mine_entity(chest_remainder_input, false)
+    end
+
+  else
+    destroy_entity(chest)
+  end
+end
+
+local function handle_inserter(inserter, player, force, remove_mode)
+  if inserter and inserter.valid and inserter.has_items_inside() then
+    inserter.minable = true
+    inserter.destructible = true
+    inserter.order_deconstruction(force, player)
+    if remove_mode == REMOVE_MODE.by_player then
+      player.mine_entity(inserter, false)
+    end
+
+  else
+    destroy_entity(inserter)
+  end
+end
+
 local function remove_lmam(entity, player, force, remove_mode)
   local lmam = global.Existing_Lmams[entity.unit_number]
   if not lmam then return end
@@ -401,30 +425,11 @@ local function remove_lmam(entity, player, force, remove_mode)
     destroy_entity(lmam.inserter_output)
 
   else
-    local chest_remainder_input = replace_chest(lmam.chest_input, player)
-    if chest_remainder_input then
-      chest_remainder_input.order_deconstruction(force, player)
-      if remove_mode == REMOVE_MODE.by_player then
-        player.mine_entity(chest_remainder_input, false)
-      end
+    handle_chest(lmam.chest_input, player, force, remove_mode)
+    handle_chest(lmam.chest_output, player, force, remove_mode)
 
-    else
-      destroy_entity(lmam.chest_input)
-    end
-
-    local chest_remainder_output = replace_chest(lmam.chest_output, player)
-    if chest_remainder_output then
-      chest_remainder_output.order_deconstruction(force, player)
-      if remove_mode == REMOVE_MODE.by_player then
-        player.mine_entity(chest_remainder_output, false)
-      end
-
-    else
-      destroy_entity(lmam.chest_output)
-    end
-
-    destroy_entity(lmam.inserter_input)
-    destroy_entity(lmam.inserter_output)
+    handle_inserter(lmam.inserter_input, player, force, remove_mode)
+    handle_inserter(lmam.inserter_output, player, force, remove_mode)
   end
 
   lmam.selected_recipe_name = nil

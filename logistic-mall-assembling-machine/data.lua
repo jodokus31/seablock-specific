@@ -1,4 +1,4 @@
-local bobsmodactive = mods["bobassembly"]
+local bobsmodactive = mods["bobassembly"] ~= nil
 
 do
   local mall_crafting_recipe_category = {
@@ -16,12 +16,14 @@ do
   if bobsmodactive then
     tech_prerequisites = {
       "automation-3",
-      "logistic-robotics"
+      "logistic-robotics",
+      "stack-inserter"
     }
   else
     tech_prerequisites = {
       "automation-2",
-      "logistic-robotics"
+      "logistic-robotics",
+      "stack-inserter"
     }
   end
 
@@ -57,9 +59,9 @@ do
     prerequisites = tech_prerequisites,
     unit =
     {
-      count = 75,
+      count = 100,
       ingredients = tech_ingredients,
-      time = 60
+      time = 30
     },
     order = bobsmodactive and "a-b-ca" or "a-b-ba"
   }
@@ -81,11 +83,10 @@ do
 
   lmam_assembling_machine_entity.name = "lmam-assembling-machine"
   lmam_assembling_machine_entity.minable.result = "lmam-assembling-machine"
-  lmam_assembling_machine_entity.selection_box = {{-1.2, -1.2}, {1.2, 1.2}}
+  lmam_assembling_machine_entity.selection_box = {{-1.1, -1.1}, {1.1, 1.1}}
   lmam_assembling_machine_entity.next_upgrade = nil
   lmam_assembling_machine_entity.fast_replaceable_group = nil
   lmam_assembling_machine_entity.crafting_categories = { "mall-crafting" }
-  --lmam_assembling_machine_entity.icon = "__logistic-mall-assembling-machine__/graphics/icon/logistic-mall-assembling-machine.png"
 
   local lmam_assembling_machine_item = util.table.deepcopy(data.raw["item"]["assembling-machine-3"])
   lmam_assembling_machine_item.name = "lmam-assembling-machine"
@@ -161,8 +162,6 @@ do
   lmam_input_inserter_entity.minable = {mining_time = 0.001, result = nil}
   lmam_input_inserter_entity.flags = {"player-creation"}
   lmam_input_inserter_entity.collision_mask = {}
-  --lmam_input_inserter_entity.collision_box = {{-0.15, -0.15}, {0.15, 0.15}}
-  --lmam_input_inserter_entity.selection_box = {{0,0}, {0,0}}
   lmam_input_inserter_entity.allow_custom_vectors = true
   lmam_input_inserter_entity.pickup_position = {0, -1}
   lmam_input_inserter_entity.insert_position = {1.2, 0}
@@ -184,8 +183,6 @@ do
   lmam_output_inserter_entity.minable = {mining_time = 0.001, result = nil}
   lmam_output_inserter_entity.flags = {"player-creation"}
   lmam_output_inserter_entity.collision_mask = {}
-  --lmam_output_inserter_entity.collision_box = {{-0.15, -0.15}, {0.15, 0.15}}
-  --lmam_output_inserter_entity.selection_box = {{0,0}, {0,0}}
   lmam_output_inserter_entity.allow_custom_vectors = true
   lmam_output_inserter_entity.pickup_position = {-1, 0}
   lmam_output_inserter_entity.insert_position = {0, -1.2}
@@ -200,26 +197,23 @@ do
   })
 end
 
-
-
-
 do
   local recipe_ingredients
   if bobsmodactive then
     recipe_ingredients =
     {
       {"assembling-machine-3", 1},
-      {"advanced-circuit", 2 },
-      {"electronic-circuit", 20 },
-      {"steel", 16 },
+      {"advanced-circuit", 3 },
+      {"electronic-circuit", 10 },
+      {"steel-plate", 10 },
     }
   else
     recipe_ingredients =
     {
       {"assembling-machine-2", 1},
-      {"advanced-circuit", 10 },
-      {"electronic-circuit", 20 },
-      {"steel", 16 },
+      {"advanced-circuit", 3 },
+      {"electronic-circuit", 10 },
+      {"steel-plate", 10 },
     }
   end
 
