@@ -1,11 +1,11 @@
 {
   "name": "logistic-mall-assembling-machine",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "title": "Logistic Mall Assembling Machine",
   "author": "jodokus31",
   "contact": "",
   "homepage": "",
-  "description": "Adds an assembling machine with integrated requester chest, which is able to craft only items usually produced in a mall.",
+  "description": "Adds an assembling machine with integrated requester chest and output buffer chest, which is able to craft only items usually produced in a mall.\n\nThis helps to build up a botbased mall a lot earlier, without needing to research logistic network.",
   "factorio_version": "1.1",
   "dependencies": [
     "base >= 1.1.0"
