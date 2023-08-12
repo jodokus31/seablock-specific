@@ -1,3 +1,5 @@
+require("util")
+
 local IGNORE_DIRECT_ACTION_AFTER_DRAG = 15
 
 local custom_inputs = require("custom_inputs")
@@ -5,6 +7,7 @@ local custom_inputs = require("custom_inputs")
 local chest = require("scripts/chest")
 local turret = require("scripts/turret")
 local assembler = require("scripts/assembler")
+local furnace = require("scripts/furnace")
 local drop = require("scripts/drop")
 local partialstacks = require("scripts/partialstacks")
 
@@ -36,6 +39,7 @@ end
 local entity_groups =
 {
 	["assembling-machine"]	= "assembling-machine",
+	["furnace"]							= "furnace",
 	["container"] 					= "container",
 	["logistic-container"]	= "container",
 	["ammo-turret"] 				= "ammo-turret"
@@ -106,6 +110,37 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 			end
 		end
 
+	elseif entity_group == "furnace" then
+
+		local input_inventory = selected_entity.get_inventory(defines.inventory.furnace_source)
+		local fuel_inventory = selected_entity.get_inventory(defines.inventory.fuel)
+
+		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
+			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
+				flying_text_infos = furnace.pickupcraftingslots(player, selected_entity)
+			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
+				flying_text_infos = furnace.fillcraftingslots(player, selected_entity)
+			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.partialstacks, tick) then
+				flying_text_infos = partialstacks.partialstackstoentity(player, input_inventory, fuel_inventory)
+			end
+		else
+			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
+
+				if fuel_inventory and fuel_inventory.valid then
+					local item_in_hand = player.cursor_stack.name
+					local item_prototype = game.item_prototypes[item_in_hand]
+					-- try to drop to fuel inventory, when item has a fuel value
+					if item_prototype and item_prototype.fuel_value > 0.001 then
+						flying_text_infos = drop.dropitems(player, fuel_inventory, state.setting_custom_drop_amount)
+					end
+				end
+
+				-- if fuel_inventory wasn't used
+				if not flying_text_infos or not next(flying_text_infos) then
+					flying_text_infos = drop.dropitems(player, input_inventory, state.setting_custom_drop_amount)
+				end
+			end
+		end
 	end
 	flying_text.create_flying_text_entities(selected_entity, flying_text_infos)
 
@@ -163,12 +198,112 @@ local function common_custominput_handler(e)
 	end
 end
 
+local function add_item_to_item_request_proxy(entity, item, add_amount, flying_text_infos)
+	local current_item_requests = util.table.deepcopy(entity.item_requests or {})
+	if not item then
+		for name, amount in pairs(current_item_requests) do
+			flying_text_infos[name] = { amount = -1*amount, total = 0 }
+		end
+		current_item_requests = {}
+	else
+		current_item_requests[item] = (current_item_requests[item] or 0) + add_amount
+		flying_text_infos[item] = { amount = add_amount, total = current_item_requests[item] }
+	end
+	entity.item_requests = current_item_requests
+end
+
+local function createitemrequests_handler(e)
+	local player = game.get_player(e.player_index)
+	if not player or not player.valid then
+		return
+	end
+
+	local entity = player.selected
+	if not entity or not entity.valid then
+		return
+	end
+
+	local cursor_stack = player.cursor_stack
+	if not cursor_stack or not cursor_stack.valid then
+		return
+	end
+
+	local add_amount = 1
+	local entity_name = entity.name
+	local is_ghost = entity_name == "entity-ghost"
+	local is_item_request_proxy = entity_name == "item-request-proxy"
+
+	local item_in_hand = cursor_stack.valid_for_read and cursor_stack.name or nil
+
+	local flying_text_infos = {}
+
+	local destroy_entity = false
+
+	if is_ghost or is_item_request_proxy then
+		add_item_to_item_request_proxy(entity, item_in_hand, add_amount, flying_text_infos)
+		if is_item_request_proxy and not item_in_hand then
+			-- destroy the item-request-proxy at the end, if item_in_hand is empty
+			destroy_entity = true
+		end
+	else
+		-- first try to find an existing "item-request-proxy" in this area
+		local search_area = {
+			{ entity.position.x + 0.001 - 0.5, entity.position.y + 0.001 - 0.5},
+			{ entity.position.x - 0.001 + 0.5, entity.position.y - 0.001 + 0.5}
+		}
+		local entities = entity.surface.find_entities(search_area)
+		local is_found = false
+		for _, found_entity in pairs(entities) do
+			if found_entity.valid then
+				if found_entity.name == "item-request-proxy" then
+					is_found = true
+					add_item_to_item_request_proxy(found_entity, item_in_hand, add_amount, flying_text_infos)
+					if not item_in_hand then
+						-- destroy the item-request-proxy, if item_in_hand is empty
+						found_entity.destroy()
+					end
+					break
+				end
+			end
+		end
+
+		-- if not found we add an item request proxy entity
+		if not is_found and item_in_hand then
+			local new_entity = player.surface.create_entity
+---@diagnostic disable-next-line: missing-fields
+			{
+				name = "item-request-proxy",
+				target = entity,
+				modules = {[item_in_hand] = add_amount},
+				position = entity.position,
+				force = player.force,
+			}
+
+			if new_entity and new_entity.valid then
+				flying_text_infos[item_in_hand] = { amount = add_amount, total = add_amount }
+			end
+		end
+	end
+
+	if flying_text_infos and next(flying_text_infos) then
+		flying_text.create_flying_text_entities(entity, flying_text_infos)
+		--something has happened
+		player.play_sound({ path = "utility/smart_pipette" })
+	end
+
+	if destroy_entity then
+		entity.destroy()
+	end
+end
+
+
 script.on_event(custom_inputs.topupplayerstacks, common_custominput_handler)
 script.on_event(custom_inputs.pickupcraftingslots, common_custominput_handler)
 script.on_event(custom_inputs.topupentities, common_custominput_handler)
 script.on_event(custom_inputs.quickstack, common_custominput_handler)
 script.on_event(custom_inputs.partialstacks, common_custominput_handler)
 script.on_event(custom_inputs.dropitems, common_custominput_handler)
+script.on_event(custom_inputs.createitemrequests, createitemrequests_handler)
 
 ---comment
 ---@param e EventData.on_selected_entity_changed

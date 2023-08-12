@@ -46,6 +46,12 @@ data:extend{
     name = custom_inputs.partialstacks, --no hand, all
     key_sequence = "CONTROL + SHIFT + ALT + mouse-button-3",
     order = "f"
+  },
+	{
+    type = "custom-input",
+    name = custom_inputs.createitemrequests,
+    key_sequence = "ALT + I",
+    order = "g"
   }
 
 }

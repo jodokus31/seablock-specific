@@ -51,7 +51,10 @@ local function get_ammo_items_per_category_cache()
 	end
 
 	ammo_items_per_category = {}
-	local ammo_item_prototypes = game.get_filtered_item_prototypes{{ filter="type", type="ammo" }}
+	local ammo_item_prototypes = game.get_filtered_item_prototypes{
+---@diagnostic disable-next-line: missing-fields
+		{ filter="type", type="ammo" }
+	}
 	for name, ammo_item_prototype in pairs(ammo_item_prototypes) do
 
 		local ammo_type = ammo_item_prototype.get_ammo_type()
