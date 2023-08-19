@@ -2,15 +2,13 @@ local chest = {}
 
 local logger = require("scripts/logger")
 
-function chest.topupplayerstacks(player, inventory)
+function chest.topupplayerstacks(flying_text_infos, player, inventory)
 	-- transfer to player from inventory
 	logger.print(player, "topup player stacks")
 
-	local flying_text_infos = {}
-
 	-- hand must be empty
 	if player.cursor_stack and player.cursor_stack.valid_for_read then
-		return flying_text_infos
+		return
 	end
 
 	for itemname, inventory_count in pairs(inventory.get_contents()) do
@@ -41,18 +39,15 @@ function chest.topupplayerstacks(player, inventory)
 	end
 
 	inventory.sort_and_merge()
-	return flying_text_infos
-
 end
 
-function chest.quickstacktoentity(player, inventory)
+function chest.quickstacktoentity(flying_text_infos, player, inventory)
   -- transfer from player to inventory
 	logger.print(player, "quickstack to chest")
 
-	local flying_text_infos = {}
 	-- hand must be empty
 	if player.cursor_stack and player.cursor_stack.valid_for_read then
-		return flying_text_infos
+		return
 	end
 
 	local keep_doing = true
@@ -95,8 +90,6 @@ function chest.quickstacktoentity(player, inventory)
 	end
 
 	inventory.sort_and_merge()
-	return flying_text_infos
-
 end
 
 return chest

@@ -24,6 +24,7 @@ function actiontype.reset_action(state)
 	state.last_action_tick = nil
 	state.last_action_types = nil
   state.last_action_is_fixed = nil
+	state.last_fuel_item_name = nil
 end
 
 function actiontype.check_action_expired(state, tick)

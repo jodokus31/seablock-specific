@@ -2,7 +2,7 @@ local turret = {}
 
 local logger = require("scripts/logger")
 
-local function topupammo(player, inventory, items, max_amount, flying_text_infos)
+local function topupammo(flying_text_infos, player, inventory, items, max_amount)
 
 	for itemname, count in pairs(items) do
 
@@ -67,17 +67,16 @@ local function get_ammo_items_per_category_cache()
 	return ammo_items_per_category
 end
 
-function turret.topupturret(player, ammo_turret, max_amount)
+function turret.topupturret(flying_text_infos, player, ammo_turret, max_amount)
 
 	logger.print(player, "topupturret with " .. max_amount .. " items")
-	local flying_text_infos = {}
 	-- hand must be empty
 	if player.cursor_stack and player.cursor_stack.valid_for_read then
-		return flying_text_infos
+		return
 	end
 	local inventory = ammo_turret.get_inventory(defines.inventory.turret_ammo)
 
-	if not topupammo(player, inventory, inventory.get_contents(), max_amount, flying_text_infos) then
+	if not topupammo(flying_text_infos, player, inventory, inventory.get_contents(), max_amount) then
 
 		local turret_ammo_categories = ammo_turret.prototype.attack_parameters.ammo_categories
 		local matching_ammo = {}
@@ -94,10 +93,8 @@ function turret.topupturret(player, ammo_turret, max_amount)
 			end
 		end
 
-		topupammo(player, inventory, matching_ammo, max_amount, flying_text_infos)
+		topupammo(flying_text_infos, player, inventory, matching_ammo, max_amount)
 	end
-
-	return flying_text_infos
 end
 
 return turret

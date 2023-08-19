@@ -67,24 +67,24 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 		return nil
 	end
 
-	local flying_text_infos = nil
+	local flying_text_infos = {}
 	if entity_group == "container" then
 
 		local inventory = selected_entity.get_inventory(defines.inventory.chest)
 		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupplayerstacks, tick) then
-				flying_text_infos = chest.topupplayerstacks(player, inventory)
+				chest.topupplayerstacks(flying_text_infos, player, inventory)
 			elseif actiontype.is_last_action(state, custom_inputs.topupentities) then
 				-- stop, when chest is selected
 				actiontype.reset_action(state)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.quickstack, tick) then
-				flying_text_infos = chest.quickstacktoentity(player, inventory)
+				chest.quickstacktoentity(flying_text_infos, player, inventory)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.partialstacks, tick) then
-				flying_text_infos = partialstacks.partialstackstoentity(player, inventory)
+				partialstacks.partialstackstoentity(flying_text_infos, player, inventory)
 			end
 		else
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
-				flying_text_infos = drop.dropitems(player, inventory, state.setting_custom_drop_amount)
+				drop.dropitems(flying_text_infos, player, inventory, state.setting_custom_drop_amount)
 			end
 		end
 
@@ -93,13 +93,13 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 		local inventory = selected_entity.get_inventory(defines.inventory.turret_ammo)
 		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
-				flying_text_infos = turret.topupturret(player, selected_entity, state.setting_max_ammo_amount)
+				turret.topupturret(flying_text_infos, player, selected_entity, state.setting_max_ammo_amount)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.partialstacks, tick) then
-				flying_text_infos = partialstacks.partialstackstoentity(player, inventory)
+				partialstacks.partialstackstoentity(flying_text_infos, player, inventory)
 			end
 		else
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
-				flying_text_infos = drop.dropitems(player, inventory, state.setting_custom_drop_amount)
+				drop.dropitems(flying_text_infos, player, inventory, state.setting_custom_drop_amount)
 			end
 		end
 
@@ -109,15 +109,15 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 
 		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
-				flying_text_infos = assembler.pickupcraftingslots(player, selected_entity)
+				assembler.pickupcraftingslots(flying_text_infos, player, selected_entity)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
-				flying_text_infos = assembler.fillcraftingslots(player, selected_entity)
+				assembler.fillcraftingslots(flying_text_infos, player, selected_entity)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.partialstacks, tick) then
-				flying_text_infos = partialstacks.partialstackstoentity(player, inventory)
+				partialstacks.partialstackstoentity(flying_text_infos, player, inventory)
 			end
 		else
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
-				flying_text_infos = drop.dropitems(player, inventory, state.setting_custom_drop_amount)
+				drop.dropitems(flying_text_infos, player, inventory, state.setting_custom_drop_amount)
 			end
 		end
 
@@ -128,15 +128,15 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 
 		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
-				flying_text_infos = burner.pickupitems(player, fuel_inventory, input_inventory)
+				burner.pickupitems(flying_text_infos, player, fuel_inventory, input_inventory)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
-				flying_text_infos = burner.topupfuel(player, selected_entity, state)
+				burner.topupfuel(flying_text_infos, player, selected_entity, state)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.partialstacks, tick) then
-				flying_text_infos = partialstacks.partialstackstoentity(player, input_inventory, fuel_inventory)
+				partialstacks.partialstackstoentity(flying_text_infos, player, input_inventory, fuel_inventory)
 			end
 		else
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
-				flying_text_infos = drop.dropitems_with_fuel(player, fuel_inventory, input_inventory, state.setting_custom_drop_amount)
+				drop.dropitems_with_fuel(flying_text_infos, player, fuel_inventory, input_inventory, state.setting_custom_drop_amount)
 			end
 		end
 
@@ -147,13 +147,13 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 
 			if not player.cursor_stack or not player.cursor_stack.valid_for_read then
 				if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
-					flying_text_infos = burner.pickupitems(player, fuel_inventory, nil)
+					burner.pickupitems(flying_text_infos, player, fuel_inventory, nil)
 				elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
-					flying_text_infos = burner.topupfuel(player, selected_entity, state)
+					burner.topupfuel(flying_text_infos, player, selected_entity, state)
 				end
 			else
 				if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
-					flying_text_infos = drop.dropitems_with_fuel(player, fuel_inventory, nil , state.setting_custom_drop_amount)
+					drop.dropitems_with_fuel(flying_text_infos, player, fuel_inventory, nil, state.setting_custom_drop_amount)
 				end
 			end
 		end
@@ -338,8 +338,6 @@ local function on_selected_entity_changed(e)
 
 	local tick = game.tick
 	if actiontype.check_action_expired(state, tick) then
-		-- reset fuel from players, when drag is expires
-		state.last_fuel_item_name = nil
 		return
 	end
 

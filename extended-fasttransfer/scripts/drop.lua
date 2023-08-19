@@ -2,16 +2,15 @@ local drop = {}
 
 local logger = require("scripts/logger")
 
-function drop.dropitems(player, inventory, max_count)
+function drop.dropitems(flying_text_infos, player, inventory, max_count)
 
-	local flying_text_infos = {}
 	-- hand may not be empty
 	if not player.cursor_stack or not player.cursor_stack.valid_for_read then
-		return flying_text_infos
+		return
 	end
 
 	if not inventory or not inventory.valid then
-		return flying_text_infos
+		return
 	end
 
   logger.print(player, "drop " .. max_count .. " items")
@@ -61,11 +60,9 @@ function drop.dropitems(player, inventory, max_count)
 			end
 		end
 	until remaining_count <= 0 or stop_condition
-	return flying_text_infos
 end
 
-function drop.dropitems_with_fuel(player, fuel_inventory, input_inventory, max_count)
-	local flying_text_infos = {}
+function drop.dropitems_with_fuel(flying_text_infos, player, fuel_inventory, input_inventory, max_count)
 	if fuel_inventory and fuel_inventory.valid then
 		local item_in_hand = player.cursor_stack.name
 		local item_prototype = game.item_prototypes[item_in_hand]
@@ -81,8 +78,6 @@ function drop.dropitems_with_fuel(player, fuel_inventory, input_inventory, max_c
 			flying_text_infos = drop.dropitems(player, input_inventory, max_count)
 		end
 	end
-	
-	return flying_text_infos
 end
 
 return drop

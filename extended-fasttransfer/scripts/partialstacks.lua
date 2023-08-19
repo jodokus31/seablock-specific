@@ -2,7 +2,6 @@ local partialstacks = {}
 
 local logger = require("scripts/logger")
 
-
 local function transfer_to_inventory(player, itemname, transfer_amount, inventory, flying_text_infos)
 	local transfer_remaining = transfer_amount
 	local transfer_stack = { name = itemname, count = transfer_amount }
@@ -22,14 +21,13 @@ local function transfer_to_inventory(player, itemname, transfer_amount, inventor
 	return transfer_remaining
 end
 
-function partialstacks.partialstackstoentity(player, inventory, fuel_inventory)
+function partialstacks.partialstackstoentity(flying_text_infos, player, inventory, fuel_inventory)
 
 	logger.print(player, "partialstacks to chest")
-	local flying_text_infos = {}
 
 	-- hand must be empty
 	if player.cursor_stack and player.cursor_stack.valid_for_read then
-		return flying_text_infos
+		return
 	end
 
 	local take_items_with_only_one_partial_stack = true
@@ -63,8 +61,6 @@ function partialstacks.partialstackstoentity(player, inventory, fuel_inventory)
 	end
 
 	inventory.sort_and_merge()
-	return flying_text_infos
-
 end
 
 return partialstacks

@@ -57,17 +57,15 @@ local function get_max_amount(burner_entity, state)
 	return state.setting_max_fuel_furnace
 end
 
-function burner.topupfuel(player, burner_entity, state)
-
-	local flying_text_infos = {}
+function burner.topupfuel(flying_text_infos, player, burner_entity, state)
 
 	if player.cursor_stack and player.cursor_stack.valid_for_read then
-		return flying_text_infos
+		return
 	end
 
 	local fuel_inventory = burner_entity.get_inventory(defines.inventory.fuel)
 	if not fuel_inventory or not fuel_inventory.valid then
-		return flying_text_infos
+		return
 	end
 
 	local fuel_item_name = nil
@@ -85,7 +83,7 @@ function burner.topupfuel(player, burner_entity, state)
   local max_amount = get_max_amount(burner_entity, state)
   if max_amount and existing_fuel_amount >= max_amount then
     -- already enough
-    return flying_text_infos
+    return
   end
 
 	if not fuel_item_name then
@@ -94,7 +92,7 @@ function burner.topupfuel(player, burner_entity, state)
 
 	if not fuel_item_name then
 		-- no fuel in player's inventory
-		return flying_text_infos
+		return
 	end
 
   if not max_amount then
@@ -121,10 +119,9 @@ function burner.topupfuel(player, burner_entity, state)
     }
 
 	end
-	return flying_text_infos
 end
 
-local function pickupitemsfrominventory(player, inventory, flying_text_infos)
+local function pickupitemsfrominventory(flying_text_infos, player, inventory)
 	if not inventory or not inventory.valid then return end
 
 	for itemname, amount in pairs(inventory.get_contents()) do
@@ -140,25 +137,21 @@ local function pickupitemsfrominventory(player, inventory, flying_text_infos)
   end
 end
 
-function burner.pickupitems(player, fuel_inventory, other_inventory)
+function burner.pickupitems(flying_text_infos, player, fuel_inventory, other_inventory)
 
-  local flying_text_infos = {}
-
-	if player.cursor_stack and player.cursor_stack.valid_for_read then
+  if player.cursor_stack and player.cursor_stack.valid_for_read then
 		return flying_text_infos
 	end
 
   logger.print(player, "pickupcraftingslots to player")
 
   if fuel_inventory and fuel_inventory.valid then
-    pickupitemsfrominventory(player, fuel_inventory, flying_text_infos)
+    pickupitemsfrominventory(flying_text_infos, player, fuel_inventory)
   end
 
   if other_inventory and other_inventory.valid then
-	  pickupitemsfrominventory(player, other_inventory, flying_text_infos)
+	  pickupitemsfrominventory(flying_text_infos, player, other_inventory)
   end
-
-	return flying_text_infos
 end
 
 return burner

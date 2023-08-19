@@ -2,18 +2,16 @@ local assembler = {}
 
 local logger = require("scripts/logger")
 
-function assembler.fillcraftingslots(player, assembling_machine)
-
-	local flying_text_infos = {}
+function assembler.fillcraftingslots(flying_text_infos, player, assembling_machine)
 
 	if player.cursor_stack and player.cursor_stack.valid_for_read then
-		return flying_text_infos
+		return
 	end
 
 	local recipe = assembling_machine.get_recipe()
 
 	if not recipe then
-		return flying_text_infos
+		return
 	end
 
 	local inventory = assembling_machine.get_inventory(defines.inventory.assembling_machine_input)
@@ -64,15 +62,12 @@ function assembler.fillcraftingslots(player, assembling_machine)
 			end
 		end
 	end
-	return flying_text_infos
 end
 
-function assembler.pickupcraftingslots(player, assembling_machine)
+function assembler.pickupcraftingslots(flying_text_infos, player, assembling_machine)
 
-  local flying_text_infos = {}
-
-	if player.cursor_stack and player.cursor_stack.valid_for_read then
-		return flying_text_infos
+  if player.cursor_stack and player.cursor_stack.valid_for_read then
+		return
 	end
 
   logger.print(player, "pickupcraftingslots to player")
@@ -80,7 +75,7 @@ function assembler.pickupcraftingslots(player, assembling_machine)
   local recipe = assembling_machine.get_recipe()
 
 	if not recipe then
-		return flying_text_infos
+		return
 	end
 
 	local inventory = assembling_machine.get_inventory(defines.inventory.assembling_machine_input)
@@ -95,8 +90,6 @@ function assembler.pickupcraftingslots(player, assembling_machine)
       flying_text_infos[itemname] = { amount = actually_inserted, total = player.get_item_count(itemname) or 0 }
     end
   end
-
-	return flying_text_infos
 end
 
 return assembler
