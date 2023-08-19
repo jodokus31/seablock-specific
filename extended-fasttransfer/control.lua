@@ -7,7 +7,8 @@ local custom_inputs = require("custom_inputs")
 local chest = require("scripts/chest")
 local turret = require("scripts/turret")
 local assembler = require("scripts/assembler")
-local furnace = require("scripts/furnace")
+local burner = require("scripts/burner")
+
 local drop = require("scripts/drop")
 local partialstacks = require("scripts/partialstacks")
 
@@ -17,6 +18,10 @@ local flying_text = require("scripts/flying_text")
 local logger = require("scripts/logger")
 
 script.on_init(function()
+	global.player_state = {}
+end)
+
+script.on_configuration_changed(function()
 	global.player_state = {}
 end)
 
@@ -30,6 +35,9 @@ local function get_player_state(player_index)
 			last_drag_action_happened = nil,
 			setting_custom_drop_amount = settings.get_player_settings(player_index)["extended-fasttransfer-custom-drop-amount"].value,
 			setting_max_ammo_amount    = settings.get_player_settings(player_index)["extended-fasttransfer-max-ammo-amount"].value,
+			setting_max_fuel_furnace   = settings.get_player_settings(player_index)["extended-fasttransfer-max-fuel-furnace"].value,
+			setting_max_fuel_boiler    = settings.get_player_settings(player_index)["extended-fasttransfer-max-fuel-boiler"].value,
+			setting_max_fuel_inserter  = settings.get_player_settings(player_index)["extended-fasttransfer-max-fuel-inserter"].value,
 		}
 		global.player_state[player_index] = state
 	end
@@ -40,8 +48,11 @@ local entity_groups =
 {
 	["assembling-machine"]	= "assembling-machine",
 	["furnace"]							= "furnace",
+	["inserter"]					  = "burner",
+	["boiler"]					    = "burner",
 	["container"] 					= "container",
 	["logistic-container"]	= "container",
+	["infinity-container"]	= "container",
 	["ammo-turret"] 				= "ammo-turret"
 }
 
@@ -117,34 +128,40 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 
 		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
-				flying_text_infos = furnace.pickupcraftingslots(player, selected_entity)
+				flying_text_infos = burner.pickupitems(player, fuel_inventory, input_inventory)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
-				flying_text_infos = furnace.fillcraftingslots(player, selected_entity)
+				flying_text_infos = burner.topupfuel(player, selected_entity, state)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.partialstacks, tick) then
 				flying_text_infos = partialstacks.partialstackstoentity(player, input_inventory, fuel_inventory)
 			end
 		else
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
+				flying_text_infos = drop.dropitems_with_fuel(player, fuel_inventory, input_inventory, state.setting_custom_drop_amount)
+			end
+		end
 
-				if fuel_inventory and fuel_inventory.valid then
-					local item_in_hand = player.cursor_stack.name
-					local item_prototype = game.item_prototypes[item_in_hand]
-					-- try to drop to fuel inventory, when item has a fuel value
-					if item_prototype and item_prototype.fuel_value > 0.001 then
-						flying_text_infos = drop.dropitems(player, fuel_inventory, state.setting_custom_drop_amount)
-					end
+	elseif entity_group == "burner" then
+
+		local fuel_inventory = selected_entity.get_inventory(defines.inventory.fuel)
+		if fuel_inventory and fuel_inventory.valid then
+
+			if not player.cursor_stack or not player.cursor_stack.valid_for_read then
+				if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
+					flying_text_infos = burner.pickupitems(player, fuel_inventory, nil)
+				elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
+					flying_text_infos = burner.topupfuel(player, selected_entity, state)
 				end
-
-				-- if fuel_inventory wasn't used
-				if not flying_text_infos or not next(flying_text_infos) then
-					flying_text_infos = drop.dropitems(player, input_inventory, state.setting_custom_drop_amount)
+			else
+				if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
+					flying_text_infos = drop.dropitems_with_fuel(player, fuel_inventory, nil , state.setting_custom_drop_amount)
 				end
 			end
 		end
 	end
-	flying_text.create_flying_text_entities(selected_entity, flying_text_infos)
 
 	if flying_text_infos and next(flying_text_infos) then
+
+		flying_text.create_flying_text_entities(selected_entity, flying_text_infos)
 		--something has moved
 		player.play_sound({ path = "utility/inventory_move" })
 
@@ -321,6 +338,8 @@ local function on_selected_entity_changed(e)
 
 	local tick = game.tick
 	if actiontype.check_action_expired(state, tick) then
+		-- reset fuel from players, when drag is expires
+		state.last_fuel_item_name = nil
 		return
 	end
 
@@ -357,6 +376,15 @@ local function on_runtime_mod_setting_changed(e)
 	elseif e.setting == "extended-fasttransfer-max-ammo-amount" then
     local state = get_player_state(e.player_index)
     state.setting_max_ammo_amount = settings.get_player_settings(e.player_index)[e.setting].value
+	elseif e.setting == "extended-fasttransfer-max-fuel-furnace" then
+    local state = get_player_state(e.player_index)
+    state.setting_max_fuel_furnace = settings.get_player_settings(e.player_index)[e.setting].value
+	elseif e.setting == "extended-fasttransfer-max-fuel-boiler" then
+    local state = get_player_state(e.player_index)
+    state.setting_max_fuel_boiler = settings.get_player_settings(e.player_index)[e.setting].value
+	elseif e.setting == "extended-fasttransfer-max-fuel-inserter" then
+    local state = get_player_state(e.player_index)
+    state.setting_max_fuel_inserter = settings.get_player_settings(e.player_index)[e.setting].value
   end
 
 end

@@ -10,6 +10,10 @@ function drop.dropitems(player, inventory, max_count)
 		return flying_text_infos
 	end
 
+	if not inventory or not inventory.valid then
+		return flying_text_infos
+	end
+
   logger.print(player, "drop " .. max_count .. " items")
 
 	local itemname = player.cursor_stack.name
@@ -57,6 +61,27 @@ function drop.dropitems(player, inventory, max_count)
 			end
 		end
 	until remaining_count <= 0 or stop_condition
+	return flying_text_infos
+end
+
+function drop.dropitems_with_fuel(player, fuel_inventory, input_inventory, max_count)
+	local flying_text_infos = {}
+	if fuel_inventory and fuel_inventory.valid then
+		local item_in_hand = player.cursor_stack.name
+		local item_prototype = game.item_prototypes[item_in_hand]
+		-- try to drop to fuel inventory, when item has a fuel value
+		if item_prototype and item_prototype.fuel_value > 0.001 then
+			flying_text_infos = drop.dropitems(player, fuel_inventory, max_count)
+		end
+	end
+
+	-- if fuel_inventory wasn't used
+	if input_inventory then
+		if not flying_text_infos or not next(flying_text_infos) then
+			flying_text_infos = drop.dropitems(player, input_inventory, max_count)
+		end
+	end
+	
 	return flying_text_infos
 end
 
