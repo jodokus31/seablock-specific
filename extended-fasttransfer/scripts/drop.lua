@@ -73,7 +73,7 @@ function drop.dropitems_with_fuel(flying_text_infos, player, fuel_inventory, inp
 	end
 
 	-- if fuel_inventory wasn't used
-	if input_inventory then
+	if input_inventory and input_inventory.valid then
 		if not flying_text_infos or not next(flying_text_infos) then
 			flying_text_infos = drop.dropitems(player, input_inventory, max_count)
 		end

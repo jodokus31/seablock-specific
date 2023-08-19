@@ -48,8 +48,8 @@ local entity_groups =
 {
 	["assembling-machine"]	= "assembling-machine",
 	["furnace"]							= "furnace",
-	["inserter"]					  = "burner",
-	["boiler"]					    = "burner",
+	["inserter"]					  = "inserter",
+	["boiler"]					    = "boiler",
 	["container"] 					= "container",
 	["logistic-container"]	= "container",
 	["infinity-container"]	= "container",
@@ -105,19 +105,22 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 
 	elseif entity_group == "assembling-machine" then
 
-		local inventory = selected_entity.get_inventory(defines.inventory.assembling_machine_input)
+		local input_inventory = selected_entity.get_inventory(defines.inventory.assembling_machine_input)
+		local fuel_inventory = selected_entity.get_inventory(defines.inventory.fuel)
 
 		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
+				burner.pickupitems(flying_text_infos, player, fuel_inventory, nil)
 				assembler.pickupcraftingslots(flying_text_infos, player, selected_entity)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
+				burner.topupfuel(flying_text_infos, player, selected_entity, state)
 				assembler.fillcraftingslots(flying_text_infos, player, selected_entity)
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.partialstacks, tick) then
-				partialstacks.partialstackstoentity(flying_text_infos, player, inventory)
+				partialstacks.partialstackstoentity(flying_text_infos, player, input_inventory, fuel_inventory)
 			end
 		else
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
-				drop.dropitems(flying_text_infos, player, inventory, state.setting_custom_drop_amount)
+				drop.dropitems_with_fuel(flying_text_infos, player, fuel_inventory, input_inventory, state.setting_custom_drop_amount)
 			end
 		end
 
@@ -140,21 +143,35 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 			end
 		end
 
-	elseif entity_group == "burner" then
+	elseif entity_group == "inserter" then
 
 		local fuel_inventory = selected_entity.get_inventory(defines.inventory.fuel)
-		if fuel_inventory and fuel_inventory.valid then
 
-			if not player.cursor_stack or not player.cursor_stack.valid_for_read then
-				if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
-					burner.pickupitems(flying_text_infos, player, fuel_inventory, nil)
-				elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
-					burner.topupfuel(flying_text_infos, player, selected_entity, state)
-				end
-			else
-				if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
-					drop.dropitems_with_fuel(flying_text_infos, player, fuel_inventory, nil, state.setting_custom_drop_amount)
-				end
+		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
+			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
+				burner.pickupitems(flying_text_infos, player, fuel_inventory, nil)
+			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
+				burner.topupfuel(flying_text_infos, player, selected_entity, state)
+			end
+		else
+			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
+				drop.dropitems_with_fuel(flying_text_infos, player, fuel_inventory, nil, state.setting_custom_drop_amount)
+			end
+		end
+
+	elseif entity_group == "boiler" then
+
+		local fuel_inventory = selected_entity.get_inventory(defines.inventory.fuel)
+
+		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
+			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.pickupcraftingslots, tick) then
+				burner.pickupitems(flying_text_infos, player, fuel_inventory, nil)
+			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.topupentities, tick) then
+				burner.topupfuel(flying_text_infos, player, selected_entity, state)
+			end
+		else
+			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
+				drop.dropitems_with_fuel(flying_text_infos, player, fuel_inventory, nil, state.setting_custom_drop_amount)
 			end
 		end
 	end
