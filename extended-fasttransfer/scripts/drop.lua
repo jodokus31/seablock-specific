@@ -68,14 +68,14 @@ function drop.dropitems_with_fuel(flying_text_infos, player, fuel_inventory, inp
 		local item_prototype = game.item_prototypes[item_in_hand]
 		-- try to drop to fuel inventory, when item has a fuel value
 		if item_prototype and item_prototype.fuel_value > 0.001 then
-			flying_text_infos = drop.dropitems(player, fuel_inventory, max_count)
+			drop.dropitems(flying_text_infos, player, fuel_inventory, max_count)
 		end
 	end
 
 	-- if fuel_inventory wasn't used
 	if input_inventory and input_inventory.valid then
 		if not flying_text_infos or not next(flying_text_infos) then
-			flying_text_infos = drop.dropitems(player, input_inventory, max_count)
+			drop.dropitems(flying_text_infos, player, input_inventory, max_count)
 		end
 	end
 end

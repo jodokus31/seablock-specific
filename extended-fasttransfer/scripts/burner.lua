@@ -49,10 +49,14 @@ local function find_fuel_from_player(player, burner_entity, state)
 end
 
 local function get_max_amount(burner_entity, state)
-	if burner_entity.type == "boiler" then
-		return state.setting_max_fuel_boiler
+	if burner_entity.type == "furnace" then
+    return state.setting_max_fuel_furnace
+  elseif burner_entity.type == "mining-drill" then
+    return state.setting_max_fuel_drill
   elseif burner_entity.type == "inserter" then
     return state.setting_max_fuel_inserter
+  elseif burner_entity.type == "boiler" or burner_entity.type == "reactor" or burner_entity.type == "burner-generator" then
+		return state.setting_max_fuel_boiler
   end
 	return state.setting_max_fuel_furnace
 end

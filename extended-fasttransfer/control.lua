@@ -36,6 +36,7 @@ local function get_player_state(player_index)
 			setting_custom_drop_amount = settings.get_player_settings(player_index)["extended-fasttransfer-custom-drop-amount"].value,
 			setting_max_ammo_amount    = settings.get_player_settings(player_index)["extended-fasttransfer-max-ammo-amount"].value,
 			setting_max_fuel_furnace   = settings.get_player_settings(player_index)["extended-fasttransfer-max-fuel-furnace"].value,
+      setting_max_fuel_drill     = settings.get_player_settings(player_index)["extended-fasttransfer-max-fuel-drill"].value,
 			setting_max_fuel_boiler    = settings.get_player_settings(player_index)["extended-fasttransfer-max-fuel-boiler"].value,
 			setting_max_fuel_inserter  = settings.get_player_settings(player_index)["extended-fasttransfer-max-fuel-inserter"].value,
 		}
@@ -50,6 +51,9 @@ local entity_groups =
 	["furnace"]							= "furnace",
 	["inserter"]					  = "inserter",
 	["boiler"]					    = "boiler",
+	["reactor"]							= "power",
+  ["burner-generator"]    = "power",
+	["mining-drill"]        = "mining-drill",
 	["container"] 					= "container",
 	["logistic-container"]	= "container",
 	["infinity-container"]	= "container",
@@ -58,7 +62,8 @@ local entity_groups =
 
 local function handle_action_on_entity(player, selected_entity, state, tick, is_from_drag)
 
-	local entity_group = entity_groups[selected_entity.type]
+  local entity_type = selected_entity.type
+	local entity_group = entity_groups[entity_type]
 	if not entity_group then
 		return nil
 	end
@@ -159,7 +164,7 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 			end
 		end
 
-	elseif entity_group == "boiler" then
+	elseif entity_group == "boiler" or entity_group == "power" or entity_group == "mining-drill" then
 
 		local fuel_inventory = selected_entity.get_inventory(defines.inventory.fuel)
 
@@ -394,6 +399,9 @@ local function on_runtime_mod_setting_changed(e)
 	elseif e.setting == "extended-fasttransfer-max-fuel-furnace" then
     local state = get_player_state(e.player_index)
     state.setting_max_fuel_furnace = settings.get_player_settings(e.player_index)[e.setting].value
+  elseif e.setting == "extended-fasttransfer-max-fuel-drill" then
+    local state = get_player_state(e.player_index)
+    state.setting_max_fuel_drill = settings.get_player_settings(e.player_index)[e.setting].value
 	elseif e.setting == "extended-fasttransfer-max-fuel-boiler" then
     local state = get_player_state(e.player_index)
     state.setting_max_fuel_boiler = settings.get_player_settings(e.player_index)[e.setting].value
