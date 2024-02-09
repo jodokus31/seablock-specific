@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+Date: 2024.02.09
+  Changes:
+    - Add an option to also disable the voiding exceptions, if somebody is so brave
+    - The inventory of a player's corpse get spilled, when it expires (~15min)
+  Bugfixes:
+    - Fix a certain crash, when a robot gets killed
+---------------------------------------------------------------------------------------------------
 Version: 0.1.0
 Date: 2023.05.29
   Changes:

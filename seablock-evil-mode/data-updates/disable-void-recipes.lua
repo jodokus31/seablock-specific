@@ -1,25 +1,31 @@
 
 if not settings.startup['seablock-evil-mode-disable-voiding-restrictions'].value then
-  local water_exceptions = 
-  {
-    ["water"] = true,
-    ["water-purified"] = true,
-    ["water-saline"] = true,
-    
-    ["water-heavy-mud"] = true,
-    ["water-concentrated-mud"] = true,
-    ["water-light-mud"] = true,
-    ["water-thin-mud"] = true,
-  }
 
-  local chemical_exceptions = 
-  {
-    ["gas-hydrogen"] = true,
-    ["gas-oxygen"] = true,
-    ["gas-nitrogen"] = true,
-    ["gas-chlorine"] = true,
-    ["gas-compressed-air"] = true,
-  }
+  local enable_execptions = not settings.startup['seablock-evil-mode-disable-voiding-exceptions'].value
+  local water_exceptions = enable_execptions
+    and
+    {
+      ["water"] = true,
+      ["water-purified"] = true,
+      ["water-saline"] = true,
+      
+      ["water-heavy-mud"] = true,
+      ["water-concentrated-mud"] = true,
+      ["water-light-mud"] = true,
+      ["water-thin-mud"] = true,
+    }
+    or {}
+
+  local chemical_exceptions = enable_execptions
+    and
+    {
+      ["gas-hydrogen"] = true,
+      ["gas-oxygen"] = true,
+      ["gas-nitrogen"] = true,
+      ["gas-chlorine"] = true,
+      ["gas-compressed-air"] = true,
+    }
+    or {}
 
   for recipe_name, recipe in pairs(data.raw["recipe"]) do 
 
