@@ -57,7 +57,8 @@ local entity_groups =
 	["container"] 					= "container",
 	["logistic-container"]	= "container",
 	["infinity-container"]	= "container",
-	["ammo-turret"] 				= "ammo-turret"
+	["ammo-turret"] 				= "ammo-turret",
+  ["lab"]                 = "lab",
 }
 
 local function handle_action_on_entity(player, selected_entity, state, tick, is_from_drag)
@@ -102,6 +103,16 @@ local function handle_action_on_entity(player, selected_entity, state, tick, is_
 			elseif actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.partialstacks, tick) then
 				partialstacks.partialstackstoentity(flying_text_infos, player, inventory)
 			end
+		else
+			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
+				drop.dropitems(flying_text_infos, player, inventory, state.setting_custom_drop_amount)
+			end
+		end
+
+  elseif entity_group == "lab" then
+
+		local inventory = selected_entity.get_inventory(defines.inventory.lab_input)
+		if not player.cursor_stack or not player.cursor_stack.valid_for_read then
 		else
 			if actiontype.is_last_action_if_yes_set_fixed(state, custom_inputs.dropitems, tick) then
 				drop.dropitems(flying_text_infos, player, inventory, state.setting_custom_drop_amount)
